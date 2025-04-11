@@ -98,7 +98,7 @@ class TimeInterval(BaseModel):
             Whether or not this TimeInterval is nested in the other TimeInterval.
         """
         return (self.start >= other.start) and (self.end <= other.end)
-    
+
     def is_disjoint_with(self, other: Self) -> bool:
         """Determines if this TimeInterval is disjoint with the other TimeInterval.
 
