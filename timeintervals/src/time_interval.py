@@ -110,6 +110,10 @@ class TimeInterval(BaseModel):
             Whether or not this TimeInterval is disjoint with the other TimeInterval.
         """
         return (self.end <= other.start) or (other.end <= self.start)
+    
+    def is_empty(self) -> str:
+        """Determines if this TimeInterval has no time in it."""
+        return self.start == self.end
 
     def __repr__(self) -> str:
         """An unambiguous string representation of this TimeInterval."""
