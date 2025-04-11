@@ -165,6 +165,22 @@ def test_is_nested_in_left_end_touches_right_start():
     assert not left_time_interval.is_nested_in(right_time_interval)
     assert not right_time_interval.is_nested_in(left_time_interval)
 
+
+def test_is_nested_in_totally_disjoint():
+    """Tests the is_nested_in method where the TimeIntervals have a gap between them."""
+    now: datetime = datetime.now()
+    left_start: datetime = now - 2 * ONE_MINUTE
+    left_end: datetime = now - ONE_MINUTE
+    right_start: datetime = now
+    right_end: datetime = now + ONE_MINUTE
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert not left_time_interval.is_nested_in(right_time_interval)
+    assert not right_time_interval.is_nested_in(left_time_interval)
+
+
 def test_is_disjoint_with_fully_nested():
     """Tests the is_disjoint_with method where one TimeInterval is nested within the other."""
     now: datetime = datetime.now()
