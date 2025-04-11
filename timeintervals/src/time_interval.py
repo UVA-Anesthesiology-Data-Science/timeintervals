@@ -89,4 +89,8 @@ class TimeInterval(BaseModel):
 
     def __repr__(self) -> str:
         """An unambiguous string representation of this TimeInterval."""
-        return f"TimeInterval(start: {self.start}, end: {self.end})"
+        return f"TimeInterval(start={self.start}, end={self.end})"
+
+    def __str__(self) -> str:
+        """A human readable string representation of this TimeInterval."""
+        return repr(self)
