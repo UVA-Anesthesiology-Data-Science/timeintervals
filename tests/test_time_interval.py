@@ -165,3 +165,102 @@ def test_is_nested_in_left_end_touches_right_start():
     assert not left_time_interval.is_nested_in(right_time_interval)
     assert not right_time_interval.is_nested_in(left_time_interval)
 
+def test_is_disjoint_with_fully_nested():
+    """Tests the is_disjoint_with method where one TimeInterval is nested within the other."""
+    now: datetime = datetime.now()
+    inner_start: datetime = now - ONE_MINUTE
+    inner_end: datetime = now
+    outer_start: datetime = now - 2 * ONE_MINUTE
+    outer_end: datetime = now + ONE_MINUTE
+
+    inner_time_interval: TimeInterval = TimeInterval(inner_start, inner_end)
+    outer_time_interval: TimeInterval = TimeInterval(outer_start, outer_end)
+
+    assert not inner_time_interval.is_disjoint_with(outer_time_interval)
+    assert not outer_time_interval.is_disjoint_with(inner_time_interval)
+
+
+def test_is_disjoint_with_touching_starts():
+    """Tests the is_disjoint_with method where the TimeIntervals have the same start times."""
+    now: datetime = datetime.now()
+    start: datetime = now - ONE_MINUTE
+    inner_end: datetime = now
+    outer_end: datetime = now + ONE_MINUTE
+
+    inner_time_interval: TimeInterval = TimeInterval(start, inner_end)
+    outer_time_interval: TimeInterval = TimeInterval(start, outer_end)
+
+    assert not inner_time_interval.is_disjoint_with(outer_time_interval)
+    assert not outer_time_interval.is_disjoint_with(inner_time_interval)
+
+
+def test_is_disjoint_with_with_touching_ends():
+    """Tests the is_disjoint_with method where the TimeIntervals have the same end times."""
+    now: datetime = datetime.now()
+    inner_start: datetime = now - ONE_MINUTE
+    outer_start: datetime = now - 2 * ONE_MINUTE
+    end: datetime = now
+
+    inner_time_interval: TimeInterval = TimeInterval(inner_start, end)
+    outer_time_interval: TimeInterval = TimeInterval(outer_start, end)
+
+    assert not inner_time_interval.is_disjoint_with(outer_time_interval)
+    assert not outer_time_interval.is_disjoint_with(inner_time_interval)
+
+
+def test_is_disjoint_with_equal():
+    """Tests the is_disjoint_with method where the TimeIntervals are equal."""
+    now: datetime = datetime.now()
+    start: datetime = now - ONE_MINUTE
+    end: datetime = now
+
+    inner_time_interval: TimeInterval = TimeInterval(start, end)
+    outer_time_interval: TimeInterval = TimeInterval(start, end)
+
+    assert not inner_time_interval.is_disjoint_with(outer_time_interval)
+    assert not outer_time_interval.is_disjoint_with(inner_time_interval)
+
+
+def test_is_disjoint_with_overlapping():
+    """Tests the is_disjoint_with method where the TimeIntervals are overlapping, but not nested."""
+    now: datetime = datetime.now()
+    left_start: datetime = now - 2 * ONE_MINUTE
+    left_end: datetime = now
+    right_start: datetime = now - ONE_MINUTE
+    right_end: datetime = now + ONE_MINUTE
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert not left_time_interval.is_disjoint_with(right_time_interval)
+    assert not right_time_interval.is_disjoint_with(left_time_interval)
+
+
+def test_is_disjoint_with_left_end_touches_right_start():
+    """Tests the is_disjoint_with method where the left TimeInterval's end equals the right's start."""
+    now: datetime = datetime.now()
+    left_start: datetime = now - 2 * ONE_MINUTE
+    left_end: datetime = now
+    right_start: datetime = now
+    right_end: datetime = now + ONE_MINUTE
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert left_time_interval.is_disjoint_with(right_time_interval)
+    assert right_time_interval.is_disjoint_with(left_time_interval)
+
+
+def test_is_disjoint_with_totally_disjoint():
+    """Tests the is_disjoint_with method where the TimeIntervals have a gap between them."""
+    now: datetime = datetime.now()
+    left_start: datetime = now - 2 * ONE_MINUTE
+    left_end: datetime = now - ONE_MINUTE
+    right_start: datetime = now
+    right_end: datetime = now + ONE_MINUTE
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert left_time_interval.is_disjoint_with(right_time_interval)
+    assert right_time_interval.is_disjoint_with(left_time_interval)
