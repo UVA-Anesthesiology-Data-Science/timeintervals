@@ -98,6 +98,18 @@ class TimeInterval(BaseModel):
             Whether or not this TimeInterval is nested in the other TimeInterval.
         """
         return (self.start >= other.start) and (self.end <= other.end)
+    
+    def is_disjoint_with(self, other: Self) -> bool:
+        """Determines if this TimeInterval is disjoint with the other TimeInterval.
+
+        Args:
+            other (TimeInterval):
+                The time inteval we wish to know whether this one is disjoint with.
+
+        Returns:
+            Whether or not this TimeInterval is disjoint with the other TimeInterval.
+        """
+        return (self.end <= other.start) or (other.end <= self.start)
 
     def __repr__(self) -> str:
         """An unambiguous string representation of this TimeInterval."""
