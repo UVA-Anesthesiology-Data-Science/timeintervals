@@ -87,6 +87,18 @@ class TimeInterval(BaseModel):
         """
         return self.end - self.start
 
+    def is_nested_in(self, other: Self) -> bool:
+        """Determines if this TimeInterval is nested within the other TimeInterval.
+
+        Args:
+            other (TimeInterval):
+                The time inteval we wish to know whether this one is nested in.
+
+        Returns:
+            Whether or not this TimeInterval is nested in the other TimeInterval.
+        """
+        return (self.start >= other.start) and (self.end <= other.end)
+
     def __repr__(self) -> str:
         """An unambiguous string representation of this TimeInterval."""
         return f"TimeInterval(start={self.start}, end={self.end})"

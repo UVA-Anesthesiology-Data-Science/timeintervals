@@ -78,3 +78,59 @@ def test_time_elapsed():
 
     interval: TimeInterval = TimeInterval(start, end)
     assert interval.time_elapsed() == ONE_MINUTE
+
+
+def test_is_nested_in_fully_nested():
+    """Tests the is_nested_in method where one TimeInterval is nested and doesn't share bounds."""
+    now: datetime = datetime.now()
+    inner_start: datetime = now - ONE_MINUTE
+    inner_end: datetime = now
+    outer_start: datetime = now - 2 * ONE_MINUTE
+    outer_end: datetime = now + ONE_MINUTE
+
+    inner_time_interval: TimeInterval = TimeInterval(inner_start, inner_end)
+    outer_time_interval: TimeInterval = TimeInterval(outer_start, outer_end)
+
+    assert inner_time_interval.is_nested_in(outer_time_interval)
+    assert not outer_time_interval.is_nested_in(inner_time_interval)
+
+
+def test_is_nested_in_with_touching_starts():
+    """Tests the is_nested_in method where the TimeIntervals have the same start times."""
+    now: datetime = datetime.now()
+    start: datetime = now - ONE_MINUTE
+    inner_end: datetime = now
+    outer_end: datetime = now + ONE_MINUTE
+
+    inner_time_interval: TimeInterval = TimeInterval(start, inner_end)
+    outer_time_interval: TimeInterval = TimeInterval(start, outer_end)
+
+    assert inner_time_interval.is_nested_in(outer_time_interval)
+    assert not outer_time_interval.is_nested_in(inner_time_interval)
+
+
+def test_is_nested_in_with_touching_ends():
+    """Tests the is_nested_in method where the TimeIntervals have the same end times."""
+    now: datetime = datetime.now()
+    inner_start: datetime = now - ONE_MINUTE
+    outer_start: datetime = now - 2 * ONE_MINUTE
+    end: datetime = now
+
+    inner_time_interval: TimeInterval = TimeInterval(inner_start, end)
+    outer_time_interval: TimeInterval = TimeInterval(outer_start, end)
+
+    assert inner_time_interval.is_nested_in(outer_time_interval)
+    assert not outer_time_interval.is_nested_in(inner_time_interval)
+
+
+def test_is_nested_in_equal():
+    """Tests the is_nested_in method where the TimeIntervals are equal."""
+    now: datetime = datetime.now()
+    start: datetime = now - ONE_MINUTE
+    end: datetime = now
+
+    inner_time_interval: TimeInterval = TimeInterval(start, end)
+    outer_time_interval: TimeInterval = TimeInterval(start, end)
+
+    assert inner_time_interval.is_nested_in(outer_time_interval)
+    assert outer_time_interval.is_nested_in(inner_time_interval)
