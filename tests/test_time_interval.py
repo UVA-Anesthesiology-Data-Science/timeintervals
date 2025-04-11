@@ -7,6 +7,7 @@ from timeintervals import TimeInterval
 
 
 def test_normal_construction():
+    """Tests construction with valid data in the way users would expect to construct objects."""
     start: datetime = datetime.now() - timedelta(minutes=1)
     end: datetime = datetime.now()
 
@@ -16,6 +17,7 @@ def test_normal_construction():
 
 
 def test_end_before_start():
+    """Tests that construction raises an exception when end is before start."""
     start: datetime = datetime.now()
     end: datetime = datetime.now() - timedelta(minutes=1)
 
