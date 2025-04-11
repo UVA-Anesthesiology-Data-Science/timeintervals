@@ -134,3 +134,34 @@ def test_is_nested_in_equal():
 
     assert inner_time_interval.is_nested_in(outer_time_interval)
     assert outer_time_interval.is_nested_in(inner_time_interval)
+
+
+def test_is_nested_in_overlapping():
+    """Tests the is_nested_in method where the TimeIntervals are overlapping, but not nested."""
+    now: datetime = datetime.now()
+    left_start: datetime = now - 2 * ONE_MINUTE
+    left_end: datetime = now
+    right_start: datetime = now - ONE_MINUTE
+    right_end: datetime = now + ONE_MINUTE
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert not left_time_interval.is_nested_in(right_time_interval)
+    assert not right_time_interval.is_nested_in(left_time_interval)
+
+
+def test_is_nested_in_left_end_touches_right_start():
+    """Tests the is_nested_in method where the left TimeInterval's end equals the right's start."""
+    now: datetime = datetime.now()
+    left_start: datetime = now - 2 * ONE_MINUTE
+    left_end: datetime = now
+    right_start: datetime = now
+    right_end: datetime = now + ONE_MINUTE
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert not left_time_interval.is_nested_in(right_time_interval)
+    assert not right_time_interval.is_nested_in(left_time_interval)
+
