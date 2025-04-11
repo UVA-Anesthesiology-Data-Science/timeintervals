@@ -1,12 +1,15 @@
 """A module defining the TimeInterval class, a construct for working with intervals of time."""
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from pydantic import BaseModel, Field, model_validator
 from typing_extensions import Self
 
 
 class TimeInterval(BaseModel):
-    """The TimeInterval class represents a set of time between a start and an end."""
+    """The TimeInterval class represents a set of time between a start and an end.
+    
+    TimeIntervals are immutable by default, any operation on them results in a new TimeInterval.
+    """
 
     start: datetime = Field(frozen=True)
     end: datetime = Field(frozen=True)
@@ -33,3 +36,11 @@ class TimeInterval(BaseModel):
             kwargs["start"] = args[0]
             kwargs["end"] = args[1]
         super().__init__(**kwargs)
+
+    def time_elapsed(self) -> timedelta:
+        """The amount of time between this TimeInterval's start and end.
+        
+        Returns:
+            A timedelta containing the amount of time between start and end.
+        """
+        self.end - self.start
