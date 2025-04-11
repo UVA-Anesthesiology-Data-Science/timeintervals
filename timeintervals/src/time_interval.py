@@ -86,3 +86,7 @@ class TimeInterval(BaseModel):
             A timedelta containing the amount of time between start and end.
         """
         return self.end - self.start
+
+    def __repr__(self) -> str:
+        """An unambiguous string representation of this TimeInterval."""
+        return f"TimeInterval(start: {self.start}, end: {self.end})"
