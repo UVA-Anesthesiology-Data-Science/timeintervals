@@ -43,4 +43,4 @@ class TimeInterval(BaseModel):
         Returns:
             A timedelta containing the amount of time between start and end.
         """
-        self.end - self.start
+        return self.end - self.start
