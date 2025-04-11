@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from pydantic_core._pydantic_core import ValidationError
 import pytest
 from timeintervals import (
-    InvalidTimeIntervalError,
     TimeFormatMismatchError,
     TimeInterval,
     UnconvertedDataError,
