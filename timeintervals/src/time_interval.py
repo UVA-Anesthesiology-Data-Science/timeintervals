@@ -19,3 +19,17 @@ class TimeInterval(BaseModel):
                 f"Cannot construct TimeInterval: {self.end} is greater than {self.start}."
             )
         return self
+
+    def __init__(self, *args, **kwargs):
+        """An override of pydantic's __init__ function to allow for positional arguments.
+
+        Without this override, the constructor TimeInterval(start=start, end=end) would work,
+        but the constructor TimeInterval(start, end) would fail. Users of this package expect
+        to be able to use both.
+        """
+        if args:
+            if len(args) != 2:
+                raise TypeError(f"Expected 2 positional arguments, got {len(args)}")
+            kwargs["start"] = args[0]
+            kwargs["end"] = args[1]
+        super().__init__(**kwargs)
