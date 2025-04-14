@@ -263,3 +263,16 @@ def test_is_disjoint_with_totally_disjoint():
 
     assert left_time_interval.is_disjoint_with(right_time_interval)
     assert right_time_interval.is_disjoint_with(left_time_interval)
+
+
+def test_eq():
+    """Tests the __eq__ method between two TimeIntervals."""
+    left_start: datetime = NOW - ONE_MINUTE
+    left_end: datetime = NOW
+    right_start: datetime = NOW - ONE_MINUTE
+    right_end: datetime = NOW
+
+    left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
+    right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
+
+    assert left_time_interval == right_time_interval
