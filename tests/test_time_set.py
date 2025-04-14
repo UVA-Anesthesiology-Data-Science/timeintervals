@@ -53,3 +53,13 @@ def test_add_time_set_to_time_set():
         ]
     )
     assert (pre_add_time_set + new_time_set) == post_add_time_set
+
+
+def test_sub_timeinterval_from_timeinterval_disjoint():
+    """Tests the _subtract_timeinterval_from_timeinterval method with disjoint timeintervals."""
+    minuend: TimeInterval = TimeInterval(NOW - 2*ONE_MINUTE, NOW - ONE_MINUTE)
+    subtrahend: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
+
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(minuend, subtrahend)
+    assert diff == TimeSet([])
+
