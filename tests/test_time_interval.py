@@ -11,13 +11,12 @@ from timeintervals import (
 
 
 ONE_MINUTE: timedelta = timedelta(minutes=1)
-
+NOW: datetime = datetime.now()
 
 def test_normal_construction():
     """Tests construction with valid data in the way users would expect to construct objects."""
-    now: datetime = datetime.now()
-    start: datetime = now - ONE_MINUTE
-    end: datetime = now
+    start: datetime = NOW - ONE_MINUTE
+    end: datetime = NOW
 
     # Test both positional and keyword argument construction because of pydantic.
     TimeInterval(start=start, end=end)
@@ -26,9 +25,8 @@ def test_normal_construction():
 
 def test_end_before_start():
     """Tests that construction raises an exception when end is before start."""
-    now: datetime = datetime.now()
-    start: datetime = now
-    end: datetime = now - ONE_MINUTE
+    start: datetime = NOW
+    end: datetime = NOW - ONE_MINUTE
 
     with pytest.raises(ValidationError, match="is greater than"):
         TimeInterval(start, end)
@@ -72,9 +70,8 @@ def test_from_strings_unconverted_data():
 
 def test_time_elapsed():
     """Tests the time_elapsed method."""
-    now: datetime = datetime.now()
-    start: datetime = now - ONE_MINUTE
-    end: datetime = now
+    start: datetime = NOW - ONE_MINUTE
+    end: datetime = NOW
 
     interval: TimeInterval = TimeInterval(start, end)
     assert interval.time_elapsed() == ONE_MINUTE
@@ -82,11 +79,10 @@ def test_time_elapsed():
 
 def test_is_nested_in_fully_nested():
     """Tests the is_nested_in method where one TimeInterval is nested and doesn't share bounds."""
-    now: datetime = datetime.now()
-    inner_start: datetime = now - ONE_MINUTE
-    inner_end: datetime = now
-    outer_start: datetime = now - 2 * ONE_MINUTE
-    outer_end: datetime = now + ONE_MINUTE
+    inner_start: datetime = NOW - ONE_MINUTE
+    inner_end: datetime = NOW
+    outer_start: datetime = NOW - 2 * ONE_MINUTE
+    outer_end: datetime = NOW + ONE_MINUTE
 
     inner_time_interval: TimeInterval = TimeInterval(inner_start, inner_end)
     outer_time_interval: TimeInterval = TimeInterval(outer_start, outer_end)
@@ -97,10 +93,9 @@ def test_is_nested_in_fully_nested():
 
 def test_is_nested_in_with_touching_starts():
     """Tests the is_nested_in method where the TimeIntervals have the same start times."""
-    now: datetime = datetime.now()
-    start: datetime = now - ONE_MINUTE
-    inner_end: datetime = now
-    outer_end: datetime = now + ONE_MINUTE
+    start: datetime = NOW - ONE_MINUTE
+    inner_end: datetime = NOW
+    outer_end: datetime = NOW + ONE_MINUTE
 
     inner_time_interval: TimeInterval = TimeInterval(start, inner_end)
     outer_time_interval: TimeInterval = TimeInterval(start, outer_end)
@@ -111,10 +106,9 @@ def test_is_nested_in_with_touching_starts():
 
 def test_is_nested_in_with_touching_ends():
     """Tests the is_nested_in method where the TimeIntervals have the same end times."""
-    now: datetime = datetime.now()
-    inner_start: datetime = now - ONE_MINUTE
-    outer_start: datetime = now - 2 * ONE_MINUTE
-    end: datetime = now
+    inner_start: datetime = NOW - ONE_MINUTE
+    outer_start: datetime = NOW - 2 * ONE_MINUTE
+    end: datetime = NOW
 
     inner_time_interval: TimeInterval = TimeInterval(inner_start, end)
     outer_time_interval: TimeInterval = TimeInterval(outer_start, end)
@@ -125,9 +119,8 @@ def test_is_nested_in_with_touching_ends():
 
 def test_is_nested_in_equal():
     """Tests the is_nested_in method where the TimeIntervals are equal."""
-    now: datetime = datetime.now()
-    start: datetime = now - ONE_MINUTE
-    end: datetime = now
+    start: datetime = NOW - ONE_MINUTE
+    end: datetime = NOW
 
     inner_time_interval: TimeInterval = TimeInterval(start, end)
     outer_time_interval: TimeInterval = TimeInterval(start, end)
@@ -138,11 +131,10 @@ def test_is_nested_in_equal():
 
 def test_is_nested_in_overlapping():
     """Tests the is_nested_in method where the TimeIntervals are overlapping, but not nested."""
-    now: datetime = datetime.now()
-    left_start: datetime = now - 2 * ONE_MINUTE
-    left_end: datetime = now
-    right_start: datetime = now - ONE_MINUTE
-    right_end: datetime = now + ONE_MINUTE
+    left_start: datetime = NOW - 2 * ONE_MINUTE
+    left_end: datetime = NOW
+    right_start: datetime = NOW - ONE_MINUTE
+    right_end: datetime = NOW + ONE_MINUTE
 
     left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
@@ -153,11 +145,10 @@ def test_is_nested_in_overlapping():
 
 def test_is_nested_in_left_end_touches_right_start():
     """Tests the is_nested_in method where the left TimeInterval's end equals the right's start."""
-    now: datetime = datetime.now()
-    left_start: datetime = now - 2 * ONE_MINUTE
-    left_end: datetime = now
-    right_start: datetime = now
-    right_end: datetime = now + ONE_MINUTE
+    left_start: datetime = NOW - 2 * ONE_MINUTE
+    left_end: datetime = NOW
+    right_start: datetime = NOW
+    right_end: datetime = NOW + ONE_MINUTE
 
     left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
@@ -168,11 +159,10 @@ def test_is_nested_in_left_end_touches_right_start():
 
 def test_is_nested_in_totally_disjoint():
     """Tests the is_nested_in method where the TimeIntervals have a gap between them."""
-    now: datetime = datetime.now()
-    left_start: datetime = now - 2 * ONE_MINUTE
-    left_end: datetime = now - ONE_MINUTE
-    right_start: datetime = now
-    right_end: datetime = now + ONE_MINUTE
+    left_start: datetime = NOW - 2 * ONE_MINUTE
+    left_end: datetime = NOW - ONE_MINUTE
+    right_start: datetime = NOW
+    right_end: datetime = NOW + ONE_MINUTE
 
     left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
@@ -183,11 +173,10 @@ def test_is_nested_in_totally_disjoint():
 
 def test_is_disjoint_with_fully_nested():
     """Tests the is_disjoint_with method where one TimeInterval is nested within the other."""
-    now: datetime = datetime.now()
-    inner_start: datetime = now - ONE_MINUTE
-    inner_end: datetime = now
-    outer_start: datetime = now - 2 * ONE_MINUTE
-    outer_end: datetime = now + ONE_MINUTE
+    inner_start: datetime = NOW - ONE_MINUTE
+    inner_end: datetime = NOW
+    outer_start: datetime = NOW - 2 * ONE_MINUTE
+    outer_end: datetime = NOW + ONE_MINUTE
 
     inner_time_interval: TimeInterval = TimeInterval(inner_start, inner_end)
     outer_time_interval: TimeInterval = TimeInterval(outer_start, outer_end)
@@ -198,10 +187,9 @@ def test_is_disjoint_with_fully_nested():
 
 def test_is_disjoint_with_touching_starts():
     """Tests the is_disjoint_with method where the TimeIntervals have the same start times."""
-    now: datetime = datetime.now()
-    start: datetime = now - ONE_MINUTE
-    inner_end: datetime = now
-    outer_end: datetime = now + ONE_MINUTE
+    start: datetime = NOW - ONE_MINUTE
+    inner_end: datetime = NOW
+    outer_end: datetime = NOW + ONE_MINUTE
 
     inner_time_interval: TimeInterval = TimeInterval(start, inner_end)
     outer_time_interval: TimeInterval = TimeInterval(start, outer_end)
@@ -212,10 +200,9 @@ def test_is_disjoint_with_touching_starts():
 
 def test_is_disjoint_with_with_touching_ends():
     """Tests the is_disjoint_with method where the TimeIntervals have the same end times."""
-    now: datetime = datetime.now()
-    inner_start: datetime = now - ONE_MINUTE
-    outer_start: datetime = now - 2 * ONE_MINUTE
-    end: datetime = now
+    inner_start: datetime = NOW - ONE_MINUTE
+    outer_start: datetime = NOW - 2 * ONE_MINUTE
+    end: datetime = NOW
 
     inner_time_interval: TimeInterval = TimeInterval(inner_start, end)
     outer_time_interval: TimeInterval = TimeInterval(outer_start, end)
@@ -226,9 +213,8 @@ def test_is_disjoint_with_with_touching_ends():
 
 def test_is_disjoint_with_equal():
     """Tests the is_disjoint_with method where the TimeIntervals are equal."""
-    now: datetime = datetime.now()
-    start: datetime = now - ONE_MINUTE
-    end: datetime = now
+    start: datetime = NOW - ONE_MINUTE
+    end: datetime = NOW
 
     inner_time_interval: TimeInterval = TimeInterval(start, end)
     outer_time_interval: TimeInterval = TimeInterval(start, end)
@@ -239,11 +225,10 @@ def test_is_disjoint_with_equal():
 
 def test_is_disjoint_with_overlapping():
     """Tests the is_disjoint_with method where the TimeIntervals are overlapping, but not nested."""
-    now: datetime = datetime.now()
-    left_start: datetime = now - 2 * ONE_MINUTE
-    left_end: datetime = now
-    right_start: datetime = now - ONE_MINUTE
-    right_end: datetime = now + ONE_MINUTE
+    left_start: datetime = NOW - 2 * ONE_MINUTE
+    left_end: datetime = NOW
+    right_start: datetime = NOW - ONE_MINUTE
+    right_end: datetime = NOW + ONE_MINUTE
 
     left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
@@ -254,11 +239,10 @@ def test_is_disjoint_with_overlapping():
 
 def test_is_disjoint_with_left_end_touches_right_start():
     """Tests the is_disjoint_with method where the left TimeInterval's end equals the right's start."""
-    now: datetime = datetime.now()
-    left_start: datetime = now - 2 * ONE_MINUTE
-    left_end: datetime = now
-    right_start: datetime = now
-    right_end: datetime = now + ONE_MINUTE
+    left_start: datetime = NOW - 2 * ONE_MINUTE
+    left_end: datetime = NOW
+    right_start: datetime = NOW
+    right_end: datetime = NOW + ONE_MINUTE
 
     left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
@@ -269,11 +253,10 @@ def test_is_disjoint_with_left_end_touches_right_start():
 
 def test_is_disjoint_with_totally_disjoint():
     """Tests the is_disjoint_with method where the TimeIntervals have a gap between them."""
-    now: datetime = datetime.now()
-    left_start: datetime = now - 2 * ONE_MINUTE
-    left_end: datetime = now - ONE_MINUTE
-    right_start: datetime = now
-    right_end: datetime = now + ONE_MINUTE
+    left_start: datetime = NOW - 2 * ONE_MINUTE
+    left_end: datetime = NOW - ONE_MINUTE
+    right_start: datetime = NOW
+    right_end: datetime = NOW + ONE_MINUTE
 
     left_time_interval: TimeInterval = TimeInterval(left_start, left_end)
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
