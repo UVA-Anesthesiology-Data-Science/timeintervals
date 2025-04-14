@@ -36,9 +36,9 @@ class TimeSet:
         """
         self.time_intervals = time_intervals
 
-    def is_empty(self) -> bool:
-        """Determines if this time interval is empty."""
-        return len(self.time_intervals) == 0
+    def __eq__(self, other: Self) -> bool:
+        """Determines if this TimeSet is equal to the other by comparing their time_intervals."""
+        self.time_intervals == other.time_intervals
 
     def __add__(self, other: Union[Self, TimeInterval]) -> Self:
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
@@ -47,7 +47,12 @@ class TimeSet:
             other (Union[Self, TimeSet]):
                 The other object. Either a TimeInterval or a TimeSet.
         """
-        pass
+        if isinstance(other, TimeSet):
+            return TimeSet(self.time_intervals + other.time_intervals)
+        elif isinstance(other, TimeInterval):
+            return TimeSet(self.time_intervals + [other])
+        else:
+            raise ValueError(f"other is a {type(other)}, not a TimeSet or a TimeInterval.")
 
     def __sub__(self, other: Union[Self, TimeInterval]) -> Self:
         """Implements set subtraction between this TimeInterval and another TimeInterval or Timeset.
@@ -60,6 +65,10 @@ class TimeSet:
             A TimeInterval or a TimeSet, depending on the inputs. May result in an empty TimeSet.
         """
         pass
+   
+    def is_empty(self) -> bool:
+        """Determines if this time interval is empty."""
+        return len(self.time_intervals) == 0
 
     def compute_union(self) -> Self:
         """Computes the union of this TimeSet's time intervals.
