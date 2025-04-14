@@ -63,3 +63,48 @@ def test_sub_timeinterval_from_timeinterval_disjoint():
     diff: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(minuend, subtrahend)
     assert diff == TimeSet([])
 
+
+def test_sub_timeinterval_from_timeinterval_overlapping_subtrahend_right():
+    """Tests the _subtract_timeinterval_from_timeinterval method with overlapping timeintervals.
+    
+    These TimeIntervals are constructed such that the minuend is overlapping with the subtrahend
+    on the right side (subtrahend.start < minuend.end).
+    """
+    minuend: TimeInterval = TimeInterval(NOW - 2*ONE_MINUTE, NOW)
+    subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    
+    diff_general_method: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    diff_specific_method: TimeSet = TimeSet._subtract_non_nested_timeintervals(
+        minuend, 
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet([TimeInterval(NOW - 2*ONE_MINUTE, NOW - ONE_MINUTE)])
+    
+    assert diff_general_method == true_diff
+    assert diff_specific_method == true_diff
+
+
+def test_sub_timeinterval_from_timeinterval_overlapping_subtrahend_right():
+    """Tests the _subtract_timeinterval_from_timeinterval method with overlapping timeintervals.
+    
+    These TimeIntervals are constructed such that the minuend is overlapping with the subtrahend
+    on the left side (subtrahend.end < minuend.start).
+    """
+    minuend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    subtrahend: TimeInterval = TimeInterval(NOW - 2*ONE_MINUTE, NOW)
+    
+    diff_general_method: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    diff_specific_method: TimeSet = TimeSet._subtract_non_nested_timeintervals(
+        minuend, 
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])
+    
+    assert diff_general_method == true_diff
+    assert diff_specific_method == true_diff
