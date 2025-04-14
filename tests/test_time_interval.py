@@ -13,6 +13,7 @@ from timeintervals import (
 ONE_MINUTE: timedelta = timedelta(minutes=1)
 NOW: datetime = datetime.now()
 
+
 def test_normal_construction():
     """Tests construction with valid data in the way users would expect to construct objects."""
     start: datetime = NOW - ONE_MINUTE
@@ -91,7 +92,7 @@ def test_is_nested_in_fully_nested():
     assert not outer_time_interval.is_nested_in(inner_time_interval)
 
 
-def test_is_nested_in_with_touching_starts():
+def test_is_nested_in_with_equal_starts():
     """Tests the is_nested_in method where the TimeIntervals have the same start times."""
     start: datetime = NOW - ONE_MINUTE
     inner_end: datetime = NOW
@@ -104,7 +105,7 @@ def test_is_nested_in_with_touching_starts():
     assert not outer_time_interval.is_nested_in(inner_time_interval)
 
 
-def test_is_nested_in_with_touching_ends():
+def test_is_nested_in_with_equal_ends():
     """Tests the is_nested_in method where the TimeIntervals have the same end times."""
     inner_start: datetime = NOW - ONE_MINUTE
     outer_start: datetime = NOW - 2 * ONE_MINUTE
@@ -143,7 +144,7 @@ def test_is_nested_in_overlapping():
     assert not right_time_interval.is_nested_in(left_time_interval)
 
 
-def test_is_nested_in_left_end_touches_right_start():
+def test_is_nested_in_left_end_equals_right_start():
     """Tests the is_nested_in method where the left TimeInterval's end equals the right's start."""
     left_start: datetime = NOW - 2 * ONE_MINUTE
     left_end: datetime = NOW
@@ -185,7 +186,7 @@ def test_is_disjoint_with_fully_nested():
     assert not outer_time_interval.is_disjoint_with(inner_time_interval)
 
 
-def test_is_disjoint_with_touching_starts():
+def test_is_disjoint_with_equal_starts():
     """Tests the is_disjoint_with method where the TimeIntervals have the same start times."""
     start: datetime = NOW - ONE_MINUTE
     inner_end: datetime = NOW
@@ -198,7 +199,7 @@ def test_is_disjoint_with_touching_starts():
     assert not outer_time_interval.is_disjoint_with(inner_time_interval)
 
 
-def test_is_disjoint_with_with_touching_ends():
+def test_is_disjoint_with_with_equal_ends():
     """Tests the is_disjoint_with method where the TimeIntervals have the same end times."""
     inner_start: datetime = NOW - ONE_MINUTE
     outer_start: datetime = NOW - 2 * ONE_MINUTE
@@ -211,7 +212,7 @@ def test_is_disjoint_with_with_touching_ends():
     assert not outer_time_interval.is_disjoint_with(inner_time_interval)
 
 
-def test_is_disjoint_with_equal():
+def test_is_disjoint_where_intervals_are_equal():
     """Tests the is_disjoint_with method where the TimeIntervals are equal."""
     start: datetime = NOW - ONE_MINUTE
     end: datetime = NOW
@@ -223,7 +224,7 @@ def test_is_disjoint_with_equal():
     assert not outer_time_interval.is_disjoint_with(inner_time_interval)
 
 
-def test_is_disjoint_with_overlapping():
+def test_is_disjoint_with_overlapping_intervals():
     """Tests the is_disjoint_with method where the TimeIntervals are overlapping, but not nested."""
     left_start: datetime = NOW - 2 * ONE_MINUTE
     left_end: datetime = NOW
@@ -237,7 +238,7 @@ def test_is_disjoint_with_overlapping():
     assert not right_time_interval.is_disjoint_with(left_time_interval)
 
 
-def test_is_disjoint_with_left_end_touches_right_start():
+def test_is_disjoint_with_left_end_equals_right_start():
     """Tests the is_disjoint_with method where the left TimeInterval's end equals the right's start."""
     left_start: datetime = NOW - 2 * ONE_MINUTE
     left_end: datetime = NOW
