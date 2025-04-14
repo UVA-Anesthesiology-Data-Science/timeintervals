@@ -1,12 +1,13 @@
 """A module defining the TimeSet class, a set of TimeIntervals."""
 
 from .time_interval import TimeInterval
-from typing import List, Union
+from typing import List, Optional, Union
 from typing_extensions import Self
+
 
 class TimeSet:
     """A set of TimeIntervals that defines set-like operations.
-    
+
     This class expands on the functionality of TimeInterval.
     TimeInterval can only represent sets of time that are contiguous. For some
     applications this is all that is necessary, but for other applications
@@ -24,7 +25,7 @@ class TimeSet:
             time_intervals (List[TimeInterval]):
                 A list of time intervals to create the TimeSet from.
         """
-        pass
+        self.time_intervals = time_intervals
 
     def is_empty(self) -> bool:
         """Determines if this time interval is empty."""
@@ -48,5 +49,26 @@ class TimeSet:
 
         Returns:
             A TimeInterval or a TimeSet, depending on the inputs. May result in an empty TimeSet.
+        """
+        pass
+
+    def compute_union(self) -> Self:
+        """Computes the union of this TimeSet's time intervals.
+
+        Returns:
+            A TimeSet containing the union of this TimeSet's time intervals.
+            The resulting TimeSet will have no overlapping time intervals.
+        """
+        pass
+
+    def compute_intersection(self) -> Optional[TimeInterval]:
+        """Computes the intersection of this TimeSet's time intervals.
+
+        May return None!!!
+
+        Returns:
+            A TimeInterval containing only the time which is common to all
+            time intervals that are in this TimeSet. If there is no time common
+            to all time intervals, it returns None.
         """
         pass
