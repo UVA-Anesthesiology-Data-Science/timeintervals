@@ -38,7 +38,7 @@ class TimeSet:
 
     def is_empty(self) -> bool:
         """Determines if this time interval is empty."""
-        pass
+        return len(self.time_intervals) == 0
 
     def __add__(self, other: Union[Self, TimeInterval]) -> Self:
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
