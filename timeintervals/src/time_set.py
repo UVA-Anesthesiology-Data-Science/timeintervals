@@ -36,10 +36,6 @@ class TimeSet:
         """
         self.time_intervals = time_intervals
 
-    def __eq__(self, other: Self) -> bool:
-        """Determines if this TimeSet is equal to the other by comparing their time_intervals."""
-        self.time_intervals == other.time_intervals
-
     def __add__(self, other: Union[Self, TimeInterval]) -> Self:
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
 
@@ -53,6 +49,16 @@ class TimeSet:
             return TimeSet(self.time_intervals + [other])
         else:
             raise ValueError(f"other is a {type(other)}, not a TimeSet or a TimeInterval.")
+
+    def __eq__(self, other: Self) -> bool:
+        """Determines if this TimeSet is equal to the other by comparing their time_intervals."""
+        return self.time_intervals == other.time_intervals
+    
+    def __repr__(self) -> str:
+        """An unambiguous string representation of this TimeSet."""
+        str_time_intervals: str = [ti.__repr__() for ti in self.time_intervals]
+        representation: str = f"TimeSet(time_intervals={str_time_intervals})"
+        return representation
 
     def __sub__(self, other: Union[Self, TimeInterval]) -> Self:
         """Implements set subtraction between this TimeInterval and another TimeInterval or Timeset.
