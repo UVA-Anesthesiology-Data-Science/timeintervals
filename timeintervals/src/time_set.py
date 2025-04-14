@@ -9,13 +9,22 @@ class TimeSet:
     """A set of TimeIntervals that defines set-like operations.
 
     This class expands on the functionality of TimeInterval.
-    TimeInterval can only represent sets of time that are contiguous. For some
-    applications this is all that is necessary, but for other applications
-    (such as those that need to subtract a time interval from another), a
-    TimeSet is needed to track non-contiugous sets of time.
+    TimeInterval acts as the basic data that TimeSet is built from. For some
+    applications this is all that is necessary, but for most applications that
+    involve time, doing set arithmetic is necessary. TimeInterval does not
+    provide any functionality for set arithmetic on its own, but when added to
+    a TimeSet, it does.
 
-    Internally, the TimeSet is just a list of TimeIntervals that exposes the
-    same operations as TimeInterval and is largely interoperable.
+    The reason this class is required is due to some set operations breaking the
+    continuity of the TimeInterval. For example, assume TimeInterval B is
+    totally nested in TimeInterval A. Then, A - B is a valid set operation, but
+    the result of this is two TimeIntervals, one from the start of A to the
+    start of B, and one from the end of B to the end of A. If A and B are
+    equal, then the result is an empty TimeInterval, or None. Thus, a method on
+    TimeInterval that implements set subtraction could return three types. By
+    wrapping TimeInterval in TimeSet, we can guarantee that it will always
+    return a TimeSet, and the user can carefully implement the unwrapping of
+    the TimeSet in only on eplace.
     """
 
     def __init__(self, time_intervals: List[TimeInterval]):
