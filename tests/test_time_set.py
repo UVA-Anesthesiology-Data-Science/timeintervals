@@ -283,7 +283,15 @@ def test_sub_timeinterval_from_timeset_some_overlap():
     assert diff == true_diff
 
 
-
 def test_sub_timeinterval_from_empty_timeset():
     """Tests the _subtract_timeinterval_from_set method with the minuend being an empty TimeSet."""
-    pass
+    minuend: TimeSet = TimeSet([])
+    subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(
+        minuend, subtrahend
+    )
+    
+    true_diff: TimeSet = TimeSet([])
+
+    assert diff == true_diff
