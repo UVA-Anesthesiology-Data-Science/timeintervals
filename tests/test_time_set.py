@@ -311,7 +311,18 @@ def test_sub_timeset_from_timeset_disjoint():
 
 def test_sub_timeset_from_timeset_equal():
     """Tests the _subtract_timeset_from_timeset method where the minuend and subtrahend are equal."""
-    pass
+    minuend: TimeSet = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+    subtrahend: TimeInterval = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+
+    diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
+
+    true_diff: TimeSet = TimeSet([])
+
+    assert diff == true_diff
 
 
 def test_sub_timeset_from_timeset_some_overlap():
