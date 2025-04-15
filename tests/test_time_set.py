@@ -1,6 +1,5 @@
 """Tests the TimeSet class."""
 
-import pytest
 from datetime import datetime, timedelta
 from timeintervals import TimeInterval, TimeSet
 
@@ -214,20 +213,18 @@ def test_sub_timeinterval_from_timeset_disjoint():
     """Tests the _subtract_timeinterval_from_set method with the subtrahend being disjoint."""
     minuend: TimeSet = TimeSet(
         [
-            TimeInterval(NOW - 2*ONE_MINUTE, NOW - ONE_MINUTE),
-            TimeInterval(NOW + 2*ONE_MINUTE, NOW + 3*ONE_MINUTE),
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     subtrahend: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
 
-    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(
-        minuend, subtrahend
-    )
-    
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(minuend, subtrahend)
+
     true_diff: TimeSet = TimeSet(
         [
-            TimeInterval(NOW - 2*ONE_MINUTE, NOW - ONE_MINUTE),
-            TimeInterval(NOW + 2*ONE_MINUTE, NOW + 3*ONE_MINUTE),
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
 
@@ -238,17 +235,15 @@ def test_sub_timeinterval_from_timeset_overlapping_all():
     """Tests the _subtract_timeinterval_from_set method with the subtrahend overlapping all."""
     minuend: TimeSet = TimeSet(
         [
-            TimeInterval(NOW - 3*ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - 3 * ONE_MINUTE, NOW - ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
-            TimeInterval(NOW + ONE_MINUTE, NOW + 3*ONE_MINUTE),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     subtrahend: TimeInterval = TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE)
 
-    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(
-        minuend, subtrahend
-    )
-    
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(minuend, subtrahend)
+
     true_diff: TimeSet = TimeSet(
         [
             TimeInterval(NOW - 3 * ONE_MINUTE, NOW - 2 * ONE_MINUTE),
@@ -269,10 +264,8 @@ def test_sub_timeinterval_from_timeset_some_overlap():
     )
     subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
 
-    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(
-        minuend, subtrahend
-    )
-    
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(minuend, subtrahend)
+
     true_diff: TimeSet = TimeSet(
         [
             TimeInterval(NOW - 3 * ONE_MINUTE, NOW - ONE_MINUTE),
@@ -288,10 +281,8 @@ def test_sub_timeinterval_from_empty_timeset():
     minuend: TimeSet = TimeSet([])
     subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
 
-    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(
-        minuend, subtrahend
-    )
-    
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(minuend, subtrahend)
+
     true_diff: TimeSet = TimeSet([])
 
     assert diff == true_diff
