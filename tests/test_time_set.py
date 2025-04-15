@@ -343,9 +343,29 @@ def test_sub_timeset_from_timeset_some_overlap():
 
 def test_sub_empty_timeset_from_timeset():
     """Tests the _subtract_timeset_from_timeset method where the subtrahend is an empty TimeSet."""
-    pass
+    minuend: TimeSet = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+    subtrahend: TimeInterval = TimeSet([])
+
+    diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
+
+    true_diff: TimeSet = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+
+    assert diff == true_diff
 
 
 def test_sub_timeset_from_empty_timeset():
     """Tests the _subtract_timeset_from_timeset method where the minuend is an empty TimeSet."""
-    pass
+    minuend: TimeSet = TimeSet([])
+    subtrahend: TimeInterval = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+
+    diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
+
+    true_diff: TimeSet = TimeSet([])
+
+    assert diff == true_diff
