@@ -208,3 +208,23 @@ def test_sub_timeinterval_from_timeinterval_fully_nested():
 
     assert diff_general_method == true_diff
     assert diff_specific_method == true_diff
+
+
+def test_sub_timeinterval_from_timeset_disjoint():
+    """Tests the _subtract_timeinterval_from_set method with the subtrahend being disjoint."""
+    pass
+
+
+def test_sub_timeinterval_from_timeset_overlapping_all():
+    """Tests the _subtract_timeinterval_from_set method with the subtrahend overlapping all."""
+    pass
+
+
+def test_sub_timeinterval_from_timeset_some_overlap():
+    """Tests the _subtract_timeinterval_from_set method with the subtrahend overlapping some."""
+    pass
+
+
+def test_sub_timeinterval_from_empty_timeset():
+    """Tests the _subtract_timeinterval_from_set method with the minuend being an empty TimeSet."""
+    pass
