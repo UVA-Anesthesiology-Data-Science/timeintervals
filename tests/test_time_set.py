@@ -236,7 +236,27 @@ def test_sub_timeinterval_from_timeset_disjoint():
 
 def test_sub_timeinterval_from_timeset_overlapping_all():
     """Tests the _subtract_timeinterval_from_set method with the subtrahend overlapping all."""
-    pass
+    minuend: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 3*ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 3*ONE_MINUTE),
+        ]
+    )
+    subtrahend: TimeInterval = TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeset(
+        minuend, subtrahend
+    )
+    
+    true_diff: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 3 * ONE_MINUTE, NOW - 2 * ONE_MINUTE),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
+        ]
+    )
+
+    assert diff == true_diff
 
 
 def test_sub_timeinterval_from_timeset_some_overlap():
