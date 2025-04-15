@@ -1,6 +1,7 @@
 """Tests the TimeSet class."""
 
 from datetime import datetime, timedelta
+import pytest
 from timeintervals import TimeInterval, TimeSet
 
 
@@ -381,7 +382,10 @@ def test_sub_operator_overloading():
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
     time_interval_subtrahend: TimeInterval = TimeInterval(NOW - 2 * ONE_MINUTE, NOW)
+    illegal_subtrahend: float = 4.2
     true_diff: TimeSet = TimeSet([])
 
     assert minuend - time_set_subtrahend == true_diff
     assert minuend - time_interval_subtrahend == true_diff
+    with pytest.raises(ValueError):
+        minuend - illegal_subtrahend
