@@ -286,3 +286,28 @@ def test_sub_timeinterval_from_empty_timeset():
     true_diff: TimeSet = TimeSet([])
 
     assert diff == true_diff
+
+
+def test_sub_timeset_from_timeset_disjoint():
+    """Tests the _subtract_timeset_from_timeset method with a disjoint minuend and subtrahend."""
+    pass
+
+
+def test_sub_timeset_from_timeset_equal():
+    """Tests the _subtract_timeset_from_timeset method where the minuend and subtrahend are equal."""
+    pass
+
+
+def test_sub_timeset_from_timeset_some_overlap():
+    """Tests the _subtract_timeset_from_timeset method where there is some overlap."""
+    pass
+
+
+def test_sub_empty_timeset_from_timeset():
+    """Tests the _subtract_timeset_from_timeset method where the subtrahend is an empty TimeSet."""
+    pass
+
+
+def test_sub_timeset_from_empty_timeset():
+    """Tests the _subtract_timeset_from_timeset method where the minuend is an empty TimeSet."""
+    pass
