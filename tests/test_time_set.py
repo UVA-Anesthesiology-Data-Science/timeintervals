@@ -108,3 +108,113 @@ def test_sub_timeinterval_from_timeinterval_overlapping_subtrahend_right():
     
     assert diff_general_method == true_diff
     assert diff_specific_method == true_diff
+
+
+def test_sub_timeinterval_from_timeinterval_nested_equal_starts_minuend_greater_end():
+    """Tests the _subtract_timeinterval_from_timeinterval method with nested timeintervals.
+    
+    These TimeIntervals are constructed such that the minuend and subtrahend have the same start,
+    but with the minuend having a greater end.
+    """
+    minuend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
+    
+    diff_general_method: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    diff_specific_method: TimeSet = TimeSet._subtract_nested_timeintervals(
+        minuend, 
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])
+    
+    assert diff_general_method == true_diff
+    assert diff_specific_method == true_diff
+
+
+def test_sub_timeinterval_from_timeinterval_nested_equal_starts_subtrahend_greater_end():
+    """Tests the _subtract_timeinterval_from_timeinterval method with nested timeintervals.
+    
+    These TimeIntervals are constructed such that the minuend and subtrahend have the same start,
+    but with the minuend having a greater end.
+    """
+    minuend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
+    subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet([])
+    
+    assert diff == true_diff
+
+
+def test_sub_timeinterval_from_timeinterval_nested_equal_ends_minuend_lesser_start():
+    """Tests the _subtract_timeinterval_from_timeinterval method with nested timeintervals.
+    
+    These TimeIntervals are constructed such that the minuend and subtrahend have the same end,
+    but with the minuend having a lesser start.
+    """
+    minuend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    subtrahend: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
+    
+    diff_general_method: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    diff_specific_method: TimeSet = TimeSet._subtract_nested_timeintervals(
+        minuend, 
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet([TimeInterval(NOW - ONE_MINUTE, NOW)])
+    
+    assert diff_general_method == true_diff
+    assert diff_specific_method == true_diff
+
+
+def test_sub_timeinterval_from_timeinterval_nested_equal_ends_subtrahend_lesser_start():
+    """Tests the _subtract_timeinterval_from_timeinterval method with nested timeintervals.
+    
+    These TimeIntervals are constructed such that the minuend and subtrahend have the same end,
+    but with the subtrahend having a lesser start.
+    """
+    minuend: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
+    subtrahend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    
+    diff: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet([])
+    
+    assert diff== true_diff
+
+def test_sub_timeinterval_from_timeinterval_fully_nested():
+    """Tests the _subtract_timeinterval_from_timeinterval method with nested timeintervals.
+    
+    These TimeIntervals are constructed such that the subtrahend is nested inside the
+    minuend with neither their start nor end being equal to onen another.
+    """
+    minuend: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + 2*ONE_MINUTE)
+    subtrahend: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
+    
+    diff_general_method: TimeSet = TimeSet._subtract_timeinterval_from_timeinterval(
+        minuend,
+        subtrahend
+    )
+    diff_specific_method: TimeSet = TimeSet._subtract_nested_timeintervals(
+        minuend, 
+        subtrahend
+    )
+    true_diff: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2*ONE_MINUTE)
+        ]
+    )
+    
+    assert diff_general_method == true_diff
+    assert diff_specific_method == true_diff
+
