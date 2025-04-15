@@ -331,7 +331,10 @@ def test_sub_timeset_from_timeset_some_overlap():
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
     subtrahend: TimeInterval = TimeSet(
-        [TimeInterval(NOW - ONE_MINUTE, NOW), TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)]
+        [
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        ]
     )
 
     diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
@@ -369,3 +372,16 @@ def test_sub_timeset_from_empty_timeset():
     true_diff: TimeSet = TimeSet([])
 
     assert diff == true_diff
+
+
+def test_sub_operator_overloading():
+    """Tests whether the __sub__ dunder method is properly overloading the - operator."""
+    minuend: TimeSet = TimeSet([])
+    time_set_subtrahend: TimeSet = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+    time_interval_subtrahend: TimeInterval = TimeInterval(NOW - 2 * ONE_MINUTE, NOW)
+    true_diff: TimeSet = TimeSet([])
+
+    assert minuend - time_set_subtrahend == true_diff
+    assert minuend - time_interval_subtrahend == true_diff
