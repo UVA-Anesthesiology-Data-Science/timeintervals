@@ -290,7 +290,23 @@ def test_sub_timeinterval_from_empty_timeset():
 
 def test_sub_timeset_from_timeset_disjoint():
     """Tests the _subtract_timeset_from_timeset method with a disjoint minuend and subtrahend."""
-    pass
+    minuend: TimeSet = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+    subtrahend: TimeInterval = TimeSet(
+        [
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
+        ]
+    )
+
+    diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
+
+    true_diff: TimeSet = TimeSet(
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
+    )
+
+    assert diff == true_diff
 
 
 def test_sub_timeset_from_timeset_equal():
