@@ -399,3 +399,14 @@ def test_union_all_disjoint():
         TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
     ]
     assert TimeSet(time_intervals).compute_union() == time_intervals
+
+
+def test_union_all_disjoint_but_touching():
+    """Tests the __union__ method with disjoint but touching TimeIntervals."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+    ]
+    true_union: List[TimeInterval] = [TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)]
+    assert TimeSet(time_intervals).compute_union() == true_union
