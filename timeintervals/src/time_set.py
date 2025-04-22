@@ -151,7 +151,6 @@ class TimeSet:
             TimeSet._subtract_timeinterval_from_timeinterval(ti, subtrahend)
             for ti in minuend.time_intervals
         ]
-        print(f"Differences: {differences}")
         differences: List[TimeSet] = list(
             filter(lambda ts: not ts.is_empty(), differences)
         )
