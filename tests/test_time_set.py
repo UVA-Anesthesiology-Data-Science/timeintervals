@@ -389,3 +389,13 @@ def test_sub_operator_overloading():
     assert minuend - time_interval_subtrahend == true_diff
     with pytest.raises(ValueError):
         minuend - illegal_subtrahend
+
+
+def test_union_all_disjoint():
+    """Tests the __union__ method with a TimeSet consisting of totally disjoint TimeIntervals."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+        TimeInterval(NOW, NOW + ONE_MINUTE),
+        TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+    ]
+    assert TimeSet(time_intervals).compute_union() == time_intervals
