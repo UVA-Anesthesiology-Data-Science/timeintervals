@@ -392,7 +392,7 @@ def test_sub_operator_overloading():
 
 
 def test_union_all_disjoint():
-    """Tests the __union__ method with a TimeSet consisting of totally disjoint TimeIntervals."""
+    """Tests the compute_union method with a TimeSet consisting of disjoint TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW, NOW + ONE_MINUTE),
@@ -402,11 +402,26 @@ def test_union_all_disjoint():
 
 
 def test_union_all_disjoint_but_touching():
-    """Tests the __union__ method with disjoint but touching TimeIntervals."""
+    """Tests the compute_union method with disjoint but touching TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE),
         TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
     ]
     true_union: List[TimeInterval] = [TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)]
+    assert TimeSet(time_intervals).compute_union() == true_union
+
+
+def test_union_overlapping_timeintervals():
+    """Tests the compute_union method with overlapping, non-nested TimeIntervals."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW),
+        TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+        TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
+    ]
+    true_union: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
+    ]
     assert TimeSet(time_intervals).compute_union() == true_union
