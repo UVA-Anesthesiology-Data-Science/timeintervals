@@ -425,3 +425,15 @@ def test_union_overlapping_timeintervals():
         TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
     ]
     assert TimeSet(time_intervals).compute_union() == true_union
+
+
+def test_union_nested_timeintervals():
+    """Tests the compute_union method with nested TimeIntervals."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    ]
+    true_union: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+    ]
+    assert TimeSet(time_intervals).compute_union() == true_union
