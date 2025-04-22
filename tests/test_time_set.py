@@ -3,6 +3,7 @@
 from datetime import datetime, timedelta
 import pytest
 from timeintervals import TimeInterval, TimeSet
+from typing import List
 
 
 ONE_MINUTE: timedelta = timedelta(minutes=1)
