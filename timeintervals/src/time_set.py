@@ -243,7 +243,26 @@ class TimeSet:
             A TimeSet containing the union of this TimeSet's time intervals.
             The resulting TimeSet will have no overlapping time intervals.
         """
-        pass
+        unioned_timeintervals: List[TimeInterval] = list()
+        intervals: List[TimeInterval] = sorted(
+            self.time_intervals, key=lambda ti: ti.start
+        )
+        current_start: datetime = intervals[0].start
+        current_end: datetime = intervals[0].end
+
+        for interval in intervals:
+            if not TimeInterval(current_start, current_end).is_disjoint_with(interval):
+                if interval.end > current_end:
+                    current_end = interval.end
+            elif interval.start == current_end:
+                current_end = interval.end
+            else:
+                unioned_timeintervals.append(TimeInterval(current_start, current_end))
+                current_start = interval.start
+                current_end = interval.end
+        unioned_timeintervals.append(TimeInterval(current_start, current_end))
+
+        return unioned_timeintervals
 
     def compute_intersection(self) -> Optional[TimeInterval]:
         """Computes the intersection of this TimeSet's time intervals.
