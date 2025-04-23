@@ -456,3 +456,31 @@ def test_union_mixed_timeintervals():
         TimeInterval(NOW + 4 * ONE_MINUTE, NOW + 5 * ONE_MINUTE),
     ]
     assert TimeSet(time_intervals).compute_union() == true_union
+
+
+def test_eq_not_equal():
+    """Tests the __eq__ method when the TimeSets are not equal."""
+    time_intervals_1: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE),
+        TimeInterval(NOW + 4 * ONE_MINUTE, NOW + 5 * ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW),
+        TimeInterval(NOW - 3 * ONE_MINUTE, NOW - 2 * ONE_MINUTE),
+    ]
+    time_intervals_2: List[TimeInterval] = time_intervals_1[1:]
+    assert TimeSet(time_intervals_1) != TimeSet(time_intervals_2)
+
+
+def test_eq_equal():
+    """Tests the __eq__ method when the TimeSets are equal."""
+    time_intervals_1: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE),
+        TimeInterval(NOW + 4 * ONE_MINUTE, NOW + 5 * ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW),
+        TimeInterval(NOW - 3 * ONE_MINUTE, NOW - 2 * ONE_MINUTE),
+    ]
+    time_intervals_2: List[TimeInterval] = sorted(
+        time_intervals_1, key=lambda ti: ti.start
+    )
+    assert TimeSet(time_intervals_1) != TimeSet(time_intervals_2)
