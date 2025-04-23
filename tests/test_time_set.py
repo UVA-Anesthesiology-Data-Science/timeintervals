@@ -484,3 +484,12 @@ def test_eq_equal():
         time_intervals_1, key=lambda ti: ti.start
     )
     assert TimeSet(time_intervals_1) != TimeSet(time_intervals_2)
+
+
+def test_compute_intersection_no_intersection():
+    """Tests the compute_intersection method with totally disjoint TimeIntervals."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+        TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+    ]
+    assert TimeSet(time_intervals).compute_intersection().is_empty()
