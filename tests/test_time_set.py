@@ -493,3 +493,13 @@ def test_compute_intersection_no_intersection():
         TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
     ]
     assert TimeSet(time_intervals).compute_intersection().is_empty()
+
+
+def test_compute_intersection_touching_boundaries():
+    """Tests the compute_intersection method with disjoint but touching TimeIntervals."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+        TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+    ]
+    assert TimeSet(time_intervals).compute_intersection().is_empty()
