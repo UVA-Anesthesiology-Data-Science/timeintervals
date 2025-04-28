@@ -18,7 +18,7 @@ def test_is_empty():
     assert not non_empty_time_set.is_empty()
 
 
-def test_add_time_interval_to_time_set():
+def test_add_timeinterval_to_timeset():
     """Tests the __add__ method by adding a TimeInterval to a TimeSet."""
     new_time_interval: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
     pre_add_time_set: TimeSet = TimeSet(
@@ -37,7 +37,7 @@ def test_add_time_interval_to_time_set():
     assert (pre_add_time_set + new_time_interval) == post_add_time_set
 
 
-def test_add_time_set_to_time_set():
+def test_add_timeset_to_timeset():
     """Tests the __add__ method by adding a TimeInterval to a TimeSet."""
     new_time_set: TimeSet = TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])
     pre_add_time_set: TimeSet = TimeSet(
@@ -545,7 +545,7 @@ def test_compute_intersection_with_intersection_present():
     assert TimeSet(time_intervals).compute_intersection() == true_intersection
 
 
-def test_timeinterval_intersection_time_interval_1_is_none():
+def test_timeinterval_intersection_timeinterval_1_is_none():
     """Tests the timeinterval_intersection method when time_interval_1 is None."""
     time_interval_1: Optional[TimeInterval] = None
     time_interval_2: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
@@ -575,8 +575,8 @@ def test_timeinterval_intersection_disjoint_intervals_not_touching():
     assert computed_intersection is None
 
 
-def test_timeinterval_intersection_time_interval_1_totally_nested_in_time_interval_2():
-    """Tests timeinterval_intersection when time_interval_1 is nested in time_interval_2."""
+def test_timeinterval_intersection_timeinterval_1_totally_nested_in_timeinterval_2():
+    """Tests timeinterval_intersection when timeinterval_1 is nested in timeinterval_2."""
     time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - ONE_MINUTE, NOW)
     time_interval_2: TimeInterval = TimeInterval(
         NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE
@@ -588,7 +588,7 @@ def test_timeinterval_intersection_time_interval_1_totally_nested_in_time_interv
     assert computed_intersection == true_intersection
 
 
-def test_timeinterval_intersection_time_interval_1_nested_in_time_interval_2_equal_starts():
+def test_timeinterval_intersection_timeinterval_1_nested_in_timeinterval_2_equal_starts():
     """Tests timeinterval_intersection when time_interval_1 is nested in time_interval_2 and their
     starts are equal.
     """
@@ -601,7 +601,7 @@ def test_timeinterval_intersection_time_interval_1_nested_in_time_interval_2_equ
     assert computed_intersection == true_intersection
 
 
-def test_timeinterval_intersection_time_interval_1_nested_in_time_interval_2_equal_ends():
+def test_timeinterval_intersection_timeinterval_1_nested_in_timeinterval_2_equal_ends():
     """Tests timeinterval_intersection when time_interval_1 is nested in time_interval_2 and their
     ends are equal.
     """
@@ -614,7 +614,7 @@ def test_timeinterval_intersection_time_interval_1_nested_in_time_interval_2_equ
     assert computed_intersection == true_intersection
 
 
-def test_timeinterval_intersection_time_interval_2_totally_nested_in_time_interval_1():
+def test_timeinterval_intersection_timeinterval_2_totally_nested_in_timeinterval_1():
     """Tests timeinterval_intersection when time_interval_2 is nested in time_interval_1."""
     time_interval_1: Optional[TimeInterval] = TimeInterval(
         NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE
@@ -627,7 +627,7 @@ def test_timeinterval_intersection_time_interval_2_totally_nested_in_time_interv
     assert computed_intersection == true_intersection
 
 
-def test_timeinterval_intersection_time_interval_2_nested_in_time_interval_1_equal_starts():
+def test_timeinterval_intersection_timeinterval_2_nested_in_timeinterval_1_equal_starts():
     """Tests timeinterval_intersection when time_interval_2 is nested in time_interval_1 and their
     starts are equal.
     """
@@ -642,7 +642,7 @@ def test_timeinterval_intersection_time_interval_2_nested_in_time_interval_1_equ
     assert computed_intersection == true_intersection
 
 
-def test_timeinterval_intersection_time_interval_2_nested_in_time_interval_1_equal_ends():
+def test_timeinterval_intersection_timeinterval_2_nested_in_timeinterval_1_equal_ends():
     """Tests timeinterval_intersection when time_interval_2 is nested in time_interval_1 and their
     ends are equal.
     """
