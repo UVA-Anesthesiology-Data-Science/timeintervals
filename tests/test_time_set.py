@@ -486,6 +486,11 @@ def test_eq_equal():
     assert TimeSet(time_intervals_1) != TimeSet(time_intervals_2)
 
 
+def test_compute_intersection_empty_timeset():
+    """Tests the compute_intersection method with an empty TimeSet."""
+    assert TimeSet([]).compute_intersection().is_empty()
+
+
 def test_compute_intersection_no_intersection():
     """Tests the compute_intersection method with totally disjoint TimeIntervals."""
     time_intervals: List[TimeInterval] = [
