@@ -287,20 +287,21 @@ class TimeSet:
 
     @staticmethod
     def _timeinterval_intersection(
-        time_interval_1: TimeInterval,
-        time_interval_2: TimeInterval
+        time_interval_1: Optional[TimeInterval],
+        time_interval_2: Optional[TimeInterval]
     ) -> Optional[TimeInterval]:
         """A helper function for compute_intersection.
         
         Args:
             time_interval_1 (TimeInterval):
-                The first TimeInterval.
+                The first TimeInterval. Could be None.
             time_interval_2 (TimeInterval)
-                The second TimeInterval.
+                The second TimeInterval. Could be None.
         
         Returns:
-            A TimeInterval with the time common to both TimeIntervals, or None
-            if there is no time in common.
+            A TimeInterval with the time common to both TimeIntervals.
+            Returns None if there is no time in common, or if either of the
+            TimeIntervals are None.
         """
         if time_interval_1 is None or time_interval_2 is None:
             return None
