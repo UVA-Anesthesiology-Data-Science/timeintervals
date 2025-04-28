@@ -540,3 +540,23 @@ def test_timeinterval_intersection_time_interval_1_is_none():
         time_interval_1, time_interval_2
     )
     assert computed_intersection is None
+
+
+def test_timeinterval_intersection_disjoint_intervals_touching():
+    """Tests the timeinterval_intersection method when both intervals are disjoint."""
+    time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - ONE_MINUTE, NOW)
+    time_interval_2: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
+    computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+        time_interval_1, time_interval_2
+    )
+    assert computed_intersection is None
+
+
+def test_timeinterval_intersection_disjoint_intervals_not_touching():
+    """Tests the timeinterval_intersection method when both intervals are disjoint."""
+    time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - ONE_MINUTE, NOW)
+    time_interval_2: TimeInterval = TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+    computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+        time_interval_1, time_interval_2
+    )
+    assert computed_intersection is None
