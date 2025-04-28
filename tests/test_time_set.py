@@ -6,8 +6,8 @@ from timeintervals import TimeInterval, TimeSet
 from typing import List
 
 
-ONE_MINUTE: timedelta = timedelta(minutes=1)
 NOW: datetime = datetime.now()
+ONE_MINUTE: timedelta = timedelta(minutes=1)
 
 
 def test_is_empty():
@@ -490,7 +490,7 @@ def test_compute_intersection_no_intersection():
     """Tests the compute_intersection method with totally disjoint TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
-        TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+        TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
     ]
     assert TimeSet(time_intervals).compute_intersection().is_empty()
 
@@ -500,6 +500,28 @@ def test_compute_intersection_touching_boundaries():
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
-        TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+        TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
     ]
     assert TimeSet(time_intervals).compute_intersection().is_empty()
+
+
+def test_compute_intersection_with_one_timeinterval_not_intersecting():
+    """Tests the compute_intersection method with one TimeInterval that does not intersect."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+        TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
+        TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
+    ]
+    assert TimeSet(time_intervals).compute_intersection().is_empty()
+
+
+def test_compute_intersection_with_intersection_present():
+    """Tests the compute_intersection method with TimeIntervals that do have an intersection."""
+    time_intervals: List[TimeInterval] = [
+        TimeInterval(NOW - 2 * ONE_MINUTE, NOW + ONE_MINUTE),
+        TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+        TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
+    ]
+    true_intersection: TimeSet = TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])
+    assert TimeSet(time_intervals).compute_intersection() == true_intersection
