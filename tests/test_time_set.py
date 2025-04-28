@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 import pytest
 from timeintervals import TimeInterval, TimeSet
-from typing import List
+from typing import List, Optional
 
 
 NOW: datetime = datetime.now()
@@ -574,9 +574,24 @@ def test_timeinterval_intersection_time_interval_1_totally_nested_in_time_interv
 
 
 def test_timeinterval_intersection_time_interval_1_nested_in_time_interval_2_equal_starts():
-    """Tests timeinterval_intersection when time_interval_1 is nested in time_interval_2."""
+    """Tests timeinterval_intersection when time_interval_1 is nested in time_interval_2 and their
+    starts are equal.
+    """
     time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - ONE_MINUTE, NOW)
     time_interval_2: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+    computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+        time_interval_1, time_interval_2
+    )
+    true_intersection: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
+    assert computed_intersection == true_intersection
+
+
+def test_timeinterval_intersection_time_interval_1_nested_in_time_interval_2_equal_ends():
+    """Tests timeinterval_intersection when time_interval_1 is nested in time_interval_2 and their
+    ends are equal.
+    """
+    time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - ONE_MINUTE, NOW)
+    time_interval_2: TimeInterval = TimeInterval(NOW - 2 * ONE_MINUTE, NOW)
     computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
         time_interval_1, time_interval_2
     )
