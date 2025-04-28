@@ -296,3 +296,17 @@ def test_eq():
     right_time_interval: TimeInterval = TimeInterval(right_start, right_end)
 
     assert left_time_interval == right_time_interval
+
+
+def test_is_empty_not_empty():
+    """Tests the is_empty method when the TimeInterval is not empty."""
+    start: datetime = NOW - ONE_MINUTE
+    end: datetime = NOW
+    assert not TimeInterval(start, end).is_empty()
+
+
+def test_is_empty_empty():
+    """Tests the is_empty method when the TimeInterval is empty."""
+    start: datetime = NOW
+    end: datetime = NOW
+    assert TimeInterval(start, end).is_empty()
