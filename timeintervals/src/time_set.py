@@ -276,4 +276,41 @@ class TimeSet:
             A TimeSet containing only the time which is common to all
             time intervals that are in this TimeSet, which could be none.
         """
-        pass
+        if self.is_empty():
+            return TimeSet([])
+        intersection: TimeInterval = reduce(
+            TimeSet._timeinterval_intersection,
+            self.time_intervals[1:],
+            self.time_intervals[0]
+        )
+        return TimeSet([intersection]) if intersection is not None else TimeSet([])
+
+    @staticmethod
+    def _timeinterval_intersection(
+        time_interval_1: TimeInterval,
+        time_interval_2: TimeInterval
+    ) -> Optional[TimeInterval]:
+        """A helper function for compute_intersection.
+        
+        Args:
+            time_interval_1 (TimeInterval):
+                The first TimeInterval.
+            time_interval_2 (TimeInterval)
+                The second TimeInterval.
+        
+        Returns:
+            A TimeInterval with the time common to both TimeIntervals, or None
+            if there is no time in common.
+        """
+        if time_interval_1 is None or time_interval_2 is None:
+            return None
+        if time_interval_1.is_disjoint_with(time_interval_2):
+            return None
+        if time_interval_1.is_nested_in(time_interval_2):
+            return time_interval_1
+        if time_interval_2.is_nested_in(time_interval_1):
+            return time_interval_2
+        latest_start: datetime = max(time_interval_1.start, time_interval_2.start)
+        earliest_end: datetime = min(time_interval_1.end, time_interval_2.end)
+        return TimeInterval(latest_start, earliest_end)
+
