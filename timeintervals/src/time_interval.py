@@ -111,6 +111,10 @@ class TimeInterval(BaseModel):
         """
         return (self.end <= other.start) or (other.end <= self.start)
 
+    def is_empty(self) -> str:
+        """Determines if this TimeInterval has no time in it."""
+        return self.start == self.end
+
     def __repr__(self) -> str:
         """An unambiguous string representation of this TimeInterval."""
         return f"TimeInterval(start={self.start}, end={self.end})"
