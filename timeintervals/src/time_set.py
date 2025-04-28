@@ -52,7 +52,7 @@ class TimeSet:
             return TimeSet(self.time_intervals + [other])
         else:
             raise ValueError(
-                f"other is a {type(other)}, not a TimeSet or a TimeInterval."
+                f"\"other\" is a {type(other)}, not a TimeSet or a TimeInterval."
             )
 
     def __eq__(self, other: Self) -> bool:
