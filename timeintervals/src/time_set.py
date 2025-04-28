@@ -281,23 +281,22 @@ class TimeSet:
         intersection: TimeInterval = reduce(
             TimeSet._timeinterval_intersection,
             self.time_intervals[1:],
-            self.time_intervals[0]
+            self.time_intervals[0],
         )
         return TimeSet([intersection]) if intersection is not None else TimeSet([])
 
     @staticmethod
     def _timeinterval_intersection(
-        time_interval_1: Optional[TimeInterval],
-        time_interval_2: TimeInterval
+        time_interval_1: Optional[TimeInterval], time_interval_2: TimeInterval
     ) -> Optional[TimeInterval]:
         """A helper function for compute_intersection.
-        
+
         Args:
             time_interval_1 (Optional[TimeInterval]):
                 The first TimeInterval. Could be None.
             time_interval_2 (TimeInterval)
                 The second TimeInterval.
-        
+
         Returns:
             A TimeInterval with the time common to both TimeIntervals.
             Returns None if there is no time in common, or if either of the
@@ -314,4 +313,3 @@ class TimeSet:
         latest_start: datetime = max(time_interval_1.start, time_interval_2.start)
         earliest_end: datetime = min(time_interval_1.end, time_interval_2.end)
         return TimeInterval(latest_start, earliest_end)
-
