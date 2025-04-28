@@ -69,6 +69,16 @@ def test_from_strings_unconverted_data():
         TimeInterval.from_strings(start_str, end_str, format_str)
 
 
+def test_from_strings_bad_formatting_string_bad_directive():
+    """Tests the from_string method with a bad formatting string due to a bad %(letter)."""
+    start_str: str = "1732/02/22 16:30:55"
+    end_str: str = "1799/12/14 5:22:21"
+    format_str: str = "%Y/%m/%D %H:%M"
+
+    with pytest.raises(ValueError, match="bad directive"):
+        TimeInterval.from_strings(start_str, end_str, format_str)
+
+
 def test_time_elapsed():
     """Tests the time_elapsed method."""
     start: datetime = NOW - ONE_MINUTE
