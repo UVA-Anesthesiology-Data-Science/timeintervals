@@ -530,3 +530,13 @@ def test_compute_intersection_with_intersection_present():
     ]
     true_intersection: TimeSet = TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])
     assert TimeSet(time_intervals).compute_intersection() == true_intersection
+
+
+def test_timeinterval_intersection_time_interval_1_is_none():
+    """Tests the timeinterval_intersection method when time_interval_1 is None."""
+    time_interval_1: Optional[TimeInterval] = None
+    time_interval_2: TimeInterval = TimeInterval(NOW, NOW + ONE_MINUTE)
+    computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+        time_interval_1, time_interval_2
+    )
+    assert computed_intersection is None
