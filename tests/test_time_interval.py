@@ -33,6 +33,15 @@ def test_end_before_start():
         TimeInterval(start, end)
 
 
+def test_too_many_positional_arguments():
+    """Tests construction with too many positional arguments."""
+    start: datetime = NOW
+    end: datetime = NOW - ONE_MINUTE
+
+    with pytest.raises(TypeError, match="Expected 2 positional arguments"):
+        TimeInterval(start, end, "start")
+
+
 def test_from_strings_valid_data():
     """Tests the from_strings method when it is given valid, properly formatted data."""
     start_str: str = "1732/02/22 16:30"
