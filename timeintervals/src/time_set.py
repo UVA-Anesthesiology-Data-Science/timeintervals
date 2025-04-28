@@ -37,7 +37,7 @@ class TimeSet:
             time_intervals (List[TimeInterval]):
                 A list of time intervals to create the TimeSet from.
         """
-        self.time_intervals = time_intervals
+        self.time_intervals: List[TimeInterval] = time_intervals
 
     def __add__(self, other: Union[Self, TimeInterval]) -> Self:
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
@@ -105,10 +105,10 @@ class TimeSet:
             A TimeSet containing the difference between the minuend and the subtrahend.
         """
         differences: List[TimeSet] = list()
-        sorted_minuend_time_intervals = sorted(
+        sorted_minuend_time_intervals: List[TimeInterval] = sorted(
             minuend.time_intervals, key=lambda ti: ti.start
         )
-        sorted_subtrahend_time_intervals = sorted(
+        sorted_subtrahend_time_intervals: List[TimeInterval] = sorted(
             subtrahend.time_intervals, key=lambda ti: ti.start
         )
         for minuend_time_interval in sorted_minuend_time_intervals:
@@ -253,13 +253,13 @@ class TimeSet:
         for interval in intervals:
             if not TimeInterval(current_start, current_end).is_disjoint_with(interval):
                 if interval.end > current_end:
-                    current_end = interval.end
+                    current_end: datetime = interval.end
             elif interval.start == current_end:
-                current_end = interval.end
+                current_end: datetime = interval.end
             else:
                 unioned_timeintervals.append(TimeInterval(current_start, current_end))
-                current_start = interval.start
-                current_end = interval.end
+                current_start: datetime = interval.start
+                current_end: datetime = interval.end
         unioned_timeintervals.append(TimeInterval(current_start, current_end))
 
         return unioned_timeintervals
