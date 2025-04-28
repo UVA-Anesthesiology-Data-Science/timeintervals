@@ -634,3 +634,29 @@ def test_timeinterval_intersection_time_interval_2_nested_in_time_interval_1_equ
     )
     true_intersection: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
     assert computed_intersection == true_intersection
+
+
+def test_timeinterval_intersection_timeinterval_1_before_timeinterval_2():
+    """Tests the timeinterval_intersection method when there is overlap and timeinterval_1 is
+    before timeinterval_2.
+    """
+    time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - 2 * ONE_MINUTE, NOW)
+    time_interval_2: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+        time_interval_1, time_interval_2
+    )
+    true_intersection: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
+    assert computed_intersection == true_intersection
+
+
+def test_timeinterval_intersection_timeinterval_2_before_timeinterval_1():
+    """Tests the timeinterval_intersection method when there is overlap and timeinterval_2 is
+    before timeinterval_1.
+    """
+    time_interval_1: Optional[TimeInterval] = TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE)
+    time_interval_2: TimeInterval = TimeInterval(NOW - 2 * ONE_MINUTE, NOW)
+    computed_intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+        time_interval_1, time_interval_2
+    )
+    true_intersection: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
+    assert computed_intersection == true_intersection
