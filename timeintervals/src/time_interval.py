@@ -77,6 +77,7 @@ class TimeInterval(BaseModel):
             else:
                 raise e
         except Exception as e:
+            # unclear about whether or not this is possible to reach.
             raise e
 
     def time_elapsed(self) -> timedelta:
