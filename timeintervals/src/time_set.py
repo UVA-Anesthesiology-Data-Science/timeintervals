@@ -264,14 +264,16 @@ class TimeSet:
 
         return unioned_timeintervals
 
-    def compute_intersection(self) -> Optional[TimeInterval]:
+    def compute_intersection(self) -> Self:
         """Computes the intersection of this TimeSet's time intervals.
 
-        May return None!!!
+        The intersection of a TimeSet can only result in a singlular TimeInterval, or
+        an empty TimeInterval. To avoid returning Nones, this method will always return
+        a TimeSet. In the event that there is an intersection, it will contain one
+        TimeInterval, and in the event that there is no intersection, it will be empty.
 
         Returns:
-            A TimeInterval containing only the time which is common to all
-            time intervals that are in this TimeSet. If there is no time common
-            to all time intervals, it returns None.
+            A TimeSet containing only the time which is common to all
+            time intervals that are in this TimeSet, which could be none.
         """
         pass
