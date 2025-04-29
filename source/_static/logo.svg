@@ -10,6 +10,8 @@
    inkscape:export-filename="time_intervals_logo.svg"
    inkscape:export-xdpi="300"
    inkscape:export-ydpi="300"
+   sodipodi:docname="logo.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +26,16 @@
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#505050"
      inkscape:document-units="mm"
-     showgrid="false" />
+     showgrid="false"
+     inkscape:zoom="1.2829368"
+     inkscape:cx="190.9681"
+     inkscape:cy="118.47817"
+     inkscape:window-width="1366"
+     inkscape:window-height="691"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
   <defs
      id="defs2" />
   <g
@@ -34,24 +45,24 @@
      transform="translate(-13.520658,-60.034556)">
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.1662px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#000000;stroke-width:1.06769"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.1662px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#1a1a1a;stroke-width:1.06769"
        x="6.6807456"
        y="84.791702"
        id="text113"><tspan
          id="tspan111"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.1662px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#000000;stroke-width:1.06769"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.1662px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#1a1a1a;stroke-width:1.06769"
          x="6.6807456"
          y="84.791702"
          sodipodi:role="line">[time]</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.1662px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#000000;stroke-width:1.06769"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:34.1662px;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#1a1a1a;stroke-width:1.06769"
        x="47.70145"
        y="115.76041"
        id="text269"><tspan
          sodipodi:role="line"
          id="tspan267"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#000000;stroke-width:1.06769"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#1a1a1a;stroke-width:1.06769"
          x="47.70145"
          y="115.76041">[intervals]</tspan></text>
   </g>
