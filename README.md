@@ -42,4 +42,17 @@ Case 2: TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)
 Case 3: TimeInterval(start=2025-10-16 17:45:00, end=2025-10-16 20:30:00)
 ```
 
+### TimeSet
+To perform the set-like operations we want to do on these cases, we need to create a TimeSet.  
+A TimeSet is composed of a list of TimeIntervals, and exposes set operations like intersection, union, add, and subtract.  
+To create one, we simply run:
+```python
+from timeintervals import TimeSet
+
+case_set: TimeSet = TimeSet(cases)
+print(case_set)
+```
+```
+TimeSet(time_intervals=['TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 17:45:00)', 'TimeInterval(start=2025-10-16 15:15:00, end=2025-10-16 16:45:00)', 'TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)', 'TimeInterval(start=2025-10-16 17:45:00, end=2025-10-16 20:30:00)'])
+```
 
