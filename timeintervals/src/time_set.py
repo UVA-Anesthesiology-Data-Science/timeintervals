@@ -262,7 +262,7 @@ class TimeSet:
                 current_end: datetime = interval.end
         unioned_timeintervals.append(TimeInterval(current_start, current_end))
 
-        return unioned_timeintervals
+        return TimeSet(unioned_timeintervals)
 
     def compute_intersection(self) -> Self:
         """Computes the intersection of this TimeSet's time intervals.
