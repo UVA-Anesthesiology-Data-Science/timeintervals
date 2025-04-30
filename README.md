@@ -61,10 +61,10 @@ To find out how many minutes the provider worked, we need is a **union** of all 
 TimeSet has a built in method called `compute_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
 ```python
 unioned_case_set: TimeSet = case_set.compute_union()
-for (index, case) in enumerate(unioned_case_set.time_intervals):
-    print(f"Case {index}: {case}")
+for (index, interval) in enumerate(unioned_case_set.time_intervals):
+    print(f"Interval {index}: {interval}")
 ```
 ```
-Case 0: TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 18:30:00)
-Case 1: TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
+Interval 0: TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 18:30:00)
+Interval 1: TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
 ```
