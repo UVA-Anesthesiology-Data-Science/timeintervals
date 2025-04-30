@@ -16,7 +16,7 @@ If we just count the minutes that the anesthesiologist worked, we would be doubl
 We need to deduplicate and use only the time the anesthesiologist was in *any* case.  
 Lets use **timeintervals** to solve this problem.  
 ### TimeInterval
-To create these timeintervals, we can parse the case's start and end times from strings.
+To create a TimeInterval, we can parse the case's start and end times from strings.
 ```python
 from timeintervals import TimeInterval
 from typing import List
@@ -75,7 +75,7 @@ Lets say the OR closes at 5:00pm, and any time over that is considered overtime 
 To find this, we need the intersection of our union with the overtime.  
 
 The `compute_intersection` method computes the *internal* intersection of the TimeSet.  
-To find the intersection between two TimeSets, we simply ensure one is internally disjoint, and find the intersection of all the TimeIntervals.
+To find the intersection between a TimeSets and an overtime TimeInterval, we ensure the TimeSet is internally disjoint, and find the intersection of all its TimeIntervals with the overtime TimeInterval.
 ```python
 from datetime import datetime
 # we can also construct timeintervals from datetime objects.
@@ -108,4 +108,27 @@ print(f"Payment: {payment:.2f}$")
 Hours worked: 3.25
 Hourly rate: 30$
 Payment: 97.50$
+```
+
+### Subtraction
+Payment computation has been completed, except there is one problem: pager payments.
+When anesthesiologists are on-call, they recieve a small amount of money even when they aren't in cases.
+How do we pay for time that *isn't* present in the data?  
+
+We can use set subtraction.  
+Suppose the pager shift starts at 7:00pm and goes until 4:00am the next day at a rate of 20 dollars an hour.
+We can build the shift as a TimeInterval, and subtract the unioned time from it to get all the payable pager time.
+```python
+pager_start: datetime = datetime(year=2025, month=10, day=16, hour=19, minute=0)
+pager_end: datetime = datetime(year=2025, month=10, day=17, hour=4, minute=0)
+pager_shift: TimeSet = TimeSet([TimeInterval(pager_start, pager_end)])
+
+payable_timeset: TimeSet = pager_shift - unioned_case_set
+print(payable_timeset)
+hours_worked: int = sum(get_hours_in_time_interval(ti) for ti in payable_timeset.time_intervals)
+print(f"Payment: {20}($/hr) * {hours_worked}hrs = {20*hours_worked}$")
+```
+```
+TimeSet(time_intervals=['TimeInterval(start=2025-10-16 20:30:00, end=2025-10-17 04:00:00)'])
+Payment: 20($/hr) * 7.5hrs = 150.0$
 ```
