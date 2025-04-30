@@ -68,3 +68,26 @@ for (index, interval) in enumerate(unioned_case_set.time_intervals):
 Interval 0: TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 18:30:00)
 Interval 1: TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
 ```
+
+### Intersection
+Overtime is not just how many minutes someone worked, but how many minutes they worked *over* a certain *time* (duh).  
+Lets say the OR closes at 5:00pm, and any time over that is considered overtime until the start of the next morning.
+To find this, we need the intersection of our union with the overtime.  
+
+The `compute_intersection` method computes the *internal* intersection of the TimeSet.  
+To find the intersection between two TimeSets, we simply ensure one is internally disjoint, and find the intersection of all the TimeIntervals.
+```python
+from datetime import datetime
+# we can also construct timeintervals from datetime objects.
+overtime_start: datetime = datetime(year=2025, month=10, day=16, hour=17, minute=0)
+overtime_end: datetime = datetime(year=2025, month=10, day=17, hour=6, minute=0)
+
+overtime: TimeInterval = TimeInterval(overtime_start, overtime_end)
+overtime_worked: List[TimeInterval] = []
+for interval in unioned_case_set.time_intervals:
+    overtime_worked += TimeSet([overtime, interval]).compute_intersection().time_intervals
+print(TimeSet(overtime_worked))
+```
+```
+TimeSet(time_intervals=['TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)', 'TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)'])
+```
