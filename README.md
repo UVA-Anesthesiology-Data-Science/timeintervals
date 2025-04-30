@@ -91,3 +91,21 @@ print(TimeSet(overtime_worked))
 ```
 TimeSet(time_intervals=['TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)', 'TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)'])
 ```
+
+### Computing Payment
+Finally, payment can be computed.
+```python
+payment_rate_per_hour: float = 30
+one_hour_in_minutes: int = 60*60
+get_hours_in_time_interval = lambda ti: ti.time_elapsed().total_seconds()/(one_hour_in_minutes)
+hours_worked: int = sum(get_hours_in_time_interval(ti) for ti in overtime_worked)
+payment: float = hours_worked*payment_rate_per_hour
+print(f"Hours worked: {hours_worked}")
+print(f"Hourly rate: {payment_rate_per_hour}$")
+print(f"Payment: {payment:.2f}$")
+```
+```
+Hours worked: 3.25
+Hourly rate: 30$
+Payment: 97.50$
+```
