@@ -15,7 +15,7 @@ Thus, their cases can often look like this:
 If we just count the minutes that the anesthesiologist worked, we would be double counting the minutes where two cases were occuring at the same time.
 We need to deduplicate and use only the time the anesthesiologist was in *any* case.  
 Lets use **timeintervals** to solve this problem.  
-### TimeInterval
+### Representing Cases with TimeInterval
 To create a TimeInterval, we can parse the case's start and end times from strings.
 ```python
 from timeintervals import TimeInterval
@@ -42,7 +42,7 @@ Case 2: TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)
 Case 3: timeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
 ```
 
-### TimeSet
+### Getting Ready for Set Operations with TimeSet
 To perform the set-like operations we want to do on these cases, we need to create a TimeSet.  
 A TimeSet is composed of a list of TimeIntervals, and exposes set operations like intersection, union, add, and subtract.  
 To create one, we simply run:
@@ -56,7 +56,7 @@ print(case_set)
 TimeSet(time_intervals=['TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 17:45:00)', 'TimeInterval(start=2025-10-16 15:15:00, end=2025-10-16 16:45:00)', 'TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)', 'TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)'])
 ```
 
-### Union
+### Finding Time Spent in Cases with Union
 To find out how many minutes the provider worked, we need is a **union** of all the time that the anesthesiologist worked.  
 TimeSet has a built in method called `compute_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
 ```python
@@ -69,7 +69,7 @@ Interval 0: TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 18:30:00)
 Interval 1: TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
 ```
 
-### Intersection
+### Finding Payable Time with Intersection
 Overtime is not just how many minutes someone worked, but how many minutes they worked *over* a certain *time* (duh).  
 Lets say the OR closes at 5:00pm, and any time over that is considered overtime until the start of the next morning.
 To find this, we need the intersection of our union with the overtime.  
@@ -110,7 +110,7 @@ Hourly rate: 30$
 Payment: 97.50$
 ```
 
-### Subtraction
+### Paying On-Call Pager Time with Subtraction
 Payment computation has been completed, except there is one problem: pager payments.
 When anesthesiologists are on-call, they recieve a small amount of money even when they aren't in cases.
 How do we pay for time that *isn't* present in the data?  
