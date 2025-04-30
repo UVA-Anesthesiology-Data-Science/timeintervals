@@ -112,12 +112,12 @@ Payment: 97.50$
 
 ### Paying On-Call Pager Time with Subtraction
 Payment computation has been completed, except there is one problem: pager payments.
-When anesthesiologists are on-call, they recieve a small amount of money even when they aren't in cases.
+When anesthesiologists are on-call, they recieve a small amount of money when they *aren't* in cases.
 How do we pay for time that *isn't* present in the data?  
 
 We can use set subtraction.  
-Suppose the pager shift starts at 7:00pm and goes until 4:00am the next day at a rate of 20 dollars an hour.
-We can build the shift as a TimeInterval, and subtract the unioned time from it to get all the payable pager time.
+Suppose pager shift starts at 7:00pm and goes until 4:00am the next day at a rate of 20 dollars an hour.
+We can build the pager shift as a TimeInterval, and subtract the unioned case time from it to get all the payable pager time.
 ```python
 pager_start: datetime = datetime(year=2025, month=10, day=16, hour=19, minute=0)
 pager_end: datetime = datetime(year=2025, month=10, day=17, hour=4, minute=0)
