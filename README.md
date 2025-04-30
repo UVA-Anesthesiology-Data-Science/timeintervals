@@ -39,7 +39,7 @@ for (index, case) in enumerate(cases):
 Case 0: TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 17:45:00)
 Case 1: TimeInterval(start=2025-10-16 15:15:00, end=2025-10-16 16:45:00)
 Case 2: TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)
-Case 3: TimeInterval(start=2025-10-16 17:45:00, end=2025-10-16 20:30:00)
+Case 3: timeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
 ```
 
 ### TimeSet
@@ -53,6 +53,18 @@ case_set: TimeSet = TimeSet(cases)
 print(case_set)
 ```
 ```
-TimeSet(time_intervals=['TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 17:45:00)', 'TimeInterval(start=2025-10-16 15:15:00, end=2025-10-16 16:45:00)', 'TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)', 'TimeInterval(start=2025-10-16 17:45:00, end=2025-10-16 20:30:00)'])
+TimeSet(time_intervals=['TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 17:45:00)', 'TimeInterval(start=2025-10-16 15:15:00, end=2025-10-16 16:45:00)', 'TimeInterval(start=2025-10-16 17:00:00, end=2025-10-16 18:30:00)', 'TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)'])
 ```
 
+### Union
+To find out how many minutes the provider worked, we need is a **union** of all the time that the anesthesiologist worked.  
+TimeSet has a built in method called `compute_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
+```python
+unioned_case_set: TimeSet = case_set.compute_union()
+for (index, case) in enumerate(unioned_case_set.time_intervals):
+    print(f"Case {index}: {case}")
+```
+```
+Case 0: TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 18:30:00)
+Case 1: TimeInterval(start=2025-10-16 18:45:00, end=2025-10-16 20:30:00)
+```
