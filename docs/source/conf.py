@@ -7,14 +7,6 @@ import sys
 import os
 from pathlib import Path
 
-print("Current dir: ", os.getcwd())
-
-# Get the absolute path to the parent directory of the documentation directory
-#parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-# Add the parent directory to the sys.path
-#sys.path.insert(0, parent_dir)
-print(str(Path("../../").resolve()))
 sys.path.insert(0, str(Path("../../").resolve()))
 
 # -- Project information -----------------------------------------------------
