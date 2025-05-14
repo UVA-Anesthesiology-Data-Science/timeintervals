@@ -406,18 +406,18 @@ def test_sub_operator_overloading():
 
 
 def test_union_all_disjoint():
-    """Tests the compute_union method with a TimeSet consisting of disjoint TimeIntervals."""
+    """Tests the compute_internal_union method with a TimeSet consisting of disjoint TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW, NOW + ONE_MINUTE),
         TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
     ]
     unioned_timeset: TimeSet = TimeSet(time_intervals)
-    assert TimeSet(time_intervals).compute_union() == unioned_timeset
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
 
 
 def test_union_all_disjoint_but_touching():
-    """Tests the compute_union method with disjoint but touching TimeIntervals."""
+    """Tests the compute_internal_union method with disjoint but touching TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE),
@@ -428,11 +428,11 @@ def test_union_all_disjoint_but_touching():
     ]
     unioned_timeset: TimeSet = TimeSet(true_union)
 
-    assert TimeSet(time_intervals).compute_union() == unioned_timeset
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
 
 
 def test_union_overlapping_timeintervals():
-    """Tests the compute_union method with overlapping, non-nested TimeIntervals."""
+    """Tests the compute_internal_union method with overlapping, non-nested TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW),
         TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
@@ -444,11 +444,11 @@ def test_union_overlapping_timeintervals():
         TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE),
     ]
     unioned_timeset: TimeSet = TimeSet(true_union)
-    assert TimeSet(time_intervals).compute_union() == unioned_timeset
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
 
 
 def test_union_nested_timeintervals():
-    """Tests the compute_union method with nested TimeIntervals."""
+    """Tests the compute_internal_union method with nested TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
@@ -457,11 +457,11 @@ def test_union_nested_timeintervals():
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
     ]
     unioned_timeset: TimeSet = TimeSet(true_union)
-    assert TimeSet(time_intervals).compute_union() == unioned_timeset
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
 
 
 def test_union_mixed_timeintervals():
-    """Tests the compute_union method with a relatively realistic group of TimeIntervals."""
+    """Tests the compute_internal_union method with a relatively realistic group of TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
         TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE),
@@ -474,7 +474,7 @@ def test_union_mixed_timeintervals():
         TimeInterval(NOW + 4 * ONE_MINUTE, NOW + 5 * ONE_MINUTE),
     ]
     unioned_timeset: TimeSet = TimeSet(true_union)
-    assert TimeSet(time_intervals).compute_union() == unioned_timeset
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
 
 
 def test_eq_not_equal():

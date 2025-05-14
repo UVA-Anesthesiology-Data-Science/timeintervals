@@ -58,9 +58,9 @@ TimeSet(time_intervals=['TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 
 
 ### Finding Time Spent in Cases with Union
 To find out how many minutes the provider worked, we need is a **union** of all the time that the anesthesiologist worked.  
-TimeSet has a built in method called `compute_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
+TimeSet has a built in method called `compute_internal_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
 ```python
-unioned_case_set: TimeSet = case_set.compute_union()
+unioned_case_set: TimeSet = case_set.compute_internal_union()
 for (index, interval) in enumerate(unioned_case_set.time_intervals):
     print(f"Interval {index}: {interval}")
 ```

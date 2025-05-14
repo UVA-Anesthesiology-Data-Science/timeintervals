@@ -236,7 +236,7 @@ class TimeSet:
         """Determines if this time interval is empty."""
         return len(self.time_intervals) == 0
 
-    def compute_union(self) -> Self:
+    def compute_internal_union(self) -> Self:
         """Computes the union of this TimeSet's time intervals.
 
         Returns:
