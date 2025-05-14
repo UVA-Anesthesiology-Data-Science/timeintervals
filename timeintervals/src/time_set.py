@@ -324,4 +324,17 @@ class TimeSet:
         Returns:
             The intersection of this TimeSet and the other TimeSet.
         """
-        pass
+        this_timeset_union: TimeSet = self.compute_internal_union()
+        other_timeset_union: TimeSet = other.compute_internal_union()
+        
+        intersection_intervals: List[TimeInterval] = []
+        for this_interval in this_timeset_union.time_intervals:
+            for other_interval in other_timeset_union.time_intervals:
+                intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+                    this_interval,
+                    other_interval,
+                )
+                if intersection is not None:
+                    intersection_intervals.append(intersection)
+
+        return TimeSet(intersection_intervals)
