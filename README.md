@@ -58,9 +58,9 @@ TimeSet(time_intervals=['TimeInterval(start=2025-10-16 15:00:00, end=2025-10-16 
 
 ### Finding Time Spent in Cases with Union
 To find out how many minutes the provider worked, we need is a **union** of all the time that the anesthesiologist worked.  
-TimeSet has a built in method called `compute_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
+TimeSet has a built in method called `compute_internal_union()` which will return a TimeSet containing the union of all the TimeIntervals in the TimeSet.
 ```python
-unioned_case_set: TimeSet = case_set.compute_union()
+unioned_case_set: TimeSet = case_set.compute_internal_union()
 for (index, interval) in enumerate(unioned_case_set.time_intervals):
     print(f"Interval {index}: {interval}")
 ```
@@ -74,7 +74,7 @@ Overtime is not just how many minutes someone worked, but how many minutes they 
 Lets say the OR closes at 5:00pm, and any time over that is considered overtime until the start of the next morning.
 To find this, we need the intersection of our union with the overtime.  
 
-The `compute_intersection` method computes the *internal* intersection of the TimeSet.  
+The `compute_internal_intersection` method computes the *internal* intersection of the TimeSet.  
 To find the intersection between a TimeSets and an overtime TimeInterval, we ensure the TimeSet is internally disjoint, and find the intersection of all its TimeIntervals with the overtime TimeInterval.
 ```python
 from datetime import datetime
@@ -85,7 +85,7 @@ overtime_end: datetime = datetime(year=2025, month=10, day=17, hour=6, minute=0)
 overtime: TimeInterval = TimeInterval(overtime_start, overtime_end)
 overtime_worked: List[TimeInterval] = []
 for interval in unioned_case_set.time_intervals:
-    overtime_worked += TimeSet([overtime, interval]).compute_intersection().time_intervals
+    overtime_worked += TimeSet([overtime, interval]).compute_internal_intersection().time_intervals
 print(TimeSet(overtime_worked))
 ```
 ```

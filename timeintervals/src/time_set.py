@@ -236,7 +236,7 @@ class TimeSet:
         """Determines if this time interval is empty."""
         return len(self.time_intervals) == 0
 
-    def compute_union(self) -> Self:
+    def compute_internal_union(self) -> Self:
         """Computes the union of this TimeSet's time intervals.
 
         Returns:
@@ -264,7 +264,7 @@ class TimeSet:
 
         return TimeSet(unioned_timeintervals)
 
-    def compute_intersection(self) -> Self:
+    def compute_internal_intersection(self) -> Self:
         """Computes the intersection of this TimeSet's time intervals.
 
         The intersection of a TimeSet can only result in a singlular TimeInterval, or
@@ -313,3 +313,43 @@ class TimeSet:
         latest_start: datetime = max(time_interval_1.start, time_interval_2.start)
         earliest_end: datetime = min(time_interval_1.end, time_interval_2.end)
         return TimeInterval(latest_start, earliest_end)
+    
+    def compute_intersection(self, other: Self) -> Self:
+        """Computes the intersection of this TimeSet with the other TimeSet.
+
+        Args:
+            other (TimeSet):
+                The other TimeSet to intersection with this one.
+
+        Returns:
+            The intersection of this TimeSet and the other TimeSet.
+        """
+        this_timeset_union: TimeSet = self.compute_internal_union()
+        other_timeset_union: TimeSet = other.compute_internal_union()
+        
+        intersection_intervals: List[TimeInterval] = []
+        for this_interval in this_timeset_union.time_intervals:
+            for other_interval in other_timeset_union.time_intervals:
+                intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
+                    this_interval,
+                    other_interval,
+                )
+                if intersection is not None:
+                    intersection_intervals.append(intersection)
+
+        return TimeSet(intersection_intervals)
+
+    def compute_union(self, other: Self) -> Self:
+        """Computes the union of this TimeSet with the other TimeSet.
+        
+        This method is merely shorthand for combining the time intervals from two TimeSets
+        together and computing that TimeSet's union.
+        
+        Args:
+            other (TimeSet):
+                The other TimeSet to union with this one.
+        
+        Returns:
+            The union of this TimeSet and the other TimeSet.
+        """
+        return TimeSet(self.time_intervals + other.time_intervals).compute_internal_union()
