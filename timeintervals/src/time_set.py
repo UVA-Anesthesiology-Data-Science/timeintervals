@@ -264,7 +264,7 @@ class TimeSet:
 
         return TimeSet(unioned_timeintervals)
 
-    def compute_intersection(self) -> Self:
+    def compute_internal_intersection(self) -> Self:
         """Computes the intersection of this TimeSet's time intervals.
 
         The intersection of a TimeSet can only result in a singlular TimeInterval, or

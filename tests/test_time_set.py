@@ -505,50 +505,50 @@ def test_eq_equal():
     assert TimeSet(time_intervals_1) != TimeSet(time_intervals_2)
 
 
-def test_compute_intersection_empty_timeset():
-    """Tests the compute_intersection method with an empty TimeSet."""
-    assert TimeSet([]).compute_intersection().is_empty()
+def test_compute_internal_intersection_empty_timeset():
+    """Tests the compute_internal_intersection method with an empty TimeSet."""
+    assert TimeSet([]).compute_internal_intersection().is_empty()
 
 
-def test_compute_intersection_no_intersection():
-    """Tests the compute_intersection method with totally disjoint TimeIntervals."""
+def test_compute_internal_intersection_no_intersection():
+    """Tests the compute_internal_intersection method with totally disjoint TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
     ]
-    assert TimeSet(time_intervals).compute_intersection().is_empty()
+    assert TimeSet(time_intervals).compute_internal_intersection().is_empty()
 
 
-def test_compute_intersection_touching_boundaries():
-    """Tests the compute_intersection method with disjoint but touching TimeIntervals."""
+def test_compute_internal_intersection_touching_boundaries():
+    """Tests the compute_internal_intersection method with disjoint but touching TimeIntervals."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
         TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
     ]
-    assert TimeSet(time_intervals).compute_intersection().is_empty()
+    assert TimeSet(time_intervals).compute_internal_intersection().is_empty()
 
 
-def test_compute_intersection_with_one_timeinterval_not_intersecting():
-    """Tests the compute_intersection method with one TimeInterval that does not intersect."""
+def test_compute_internal_intersection_with_one_timeinterval_not_intersecting():
+    """Tests the compute_internal_intersection method with one TimeInterval that does not intersect."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW + ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
         TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
         TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
     ]
-    assert TimeSet(time_intervals).compute_intersection().is_empty()
+    assert TimeSet(time_intervals).compute_internal_intersection().is_empty()
 
 
-def test_compute_intersection_with_intersection_present():
-    """Tests the compute_intersection method with TimeIntervals that do have an intersection."""
+def test_compute_internal_intersection_with_intersection_present():
+    """Tests the compute_internal_intersection method with TimeIntervals that do have an intersection."""
     time_intervals: List[TimeInterval] = [
         TimeInterval(NOW - 2 * ONE_MINUTE, NOW + ONE_MINUTE),
         TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
         TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
     ]
     true_intersection: TimeSet = TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])
-    assert TimeSet(time_intervals).compute_intersection() == true_intersection
+    assert TimeSet(time_intervals).compute_internal_intersection() == true_intersection
 
 
 def test_timeinterval_intersection_timeinterval_1_is_none():

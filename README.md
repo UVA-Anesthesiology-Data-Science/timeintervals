@@ -74,7 +74,7 @@ Overtime is not just how many minutes someone worked, but how many minutes they 
 Lets say the OR closes at 5:00pm, and any time over that is considered overtime until the start of the next morning.
 To find this, we need the intersection of our union with the overtime.  
 
-The `compute_intersection` method computes the *internal* intersection of the TimeSet.  
+The `compute_internal_intersection` method computes the *internal* intersection of the TimeSet.  
 To find the intersection between a TimeSets and an overtime TimeInterval, we ensure the TimeSet is internally disjoint, and find the intersection of all its TimeIntervals with the overtime TimeInterval.
 ```python
 from datetime import datetime
@@ -85,7 +85,7 @@ overtime_end: datetime = datetime(year=2025, month=10, day=17, hour=6, minute=0)
 overtime: TimeInterval = TimeInterval(overtime_start, overtime_end)
 overtime_worked: List[TimeInterval] = []
 for interval in unioned_case_set.time_intervals:
-    overtime_worked += TimeSet([overtime, interval]).compute_intersection().time_intervals
+    overtime_worked += TimeSet([overtime, interval]).compute_internal_intersection().time_intervals
 print(TimeSet(overtime_worked))
 ```
 ```
