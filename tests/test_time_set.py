@@ -687,3 +687,43 @@ def test_timeinterval_intersection_timeinterval_2_before_timeinterval_1():
     )
     true_intersection: TimeInterval = TimeInterval(NOW - ONE_MINUTE, NOW)
     assert computed_intersection == true_intersection
+
+
+def test_compute_intersection_equal_timesets():
+    """Tests the compute_intersection method when both TimeSets are equal."""
+    time_set_1: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+        ]
+    )
+    time_set_2: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+        ]
+    )
+    true_intersection: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+        ]
+    )
+    assert time_set_1.compute_intersection(time_set_2) == true_intersection
+
+
+def test_compute_intersection_no_overlap():
+    """Tests the compute_intersection method when none of the timeintervals overlap."""
+    time_set_1: TimeSet = TimeSet(
+        [
+            TimeInterval()
+        ]
+    )
+    time_set_2: TimeSet = TimeSet(
+        [
+            TimeInterval()
+        ]
+    )
+    assert time_set_1.compute_intersection(time_set_2).is_empty()
