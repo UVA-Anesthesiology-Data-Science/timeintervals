@@ -338,3 +338,18 @@ class TimeSet:
                     intersection_intervals.append(intersection)
 
         return TimeSet(intersection_intervals)
+
+    def compute_union(self, other: Self) -> Self:
+        """Computes the union of this TimeSet with the other TimeSet.
+        
+        This method is merely shorthand for combining the time intervals from two TimeSets
+        together and computing that TimeSet's union.
+        
+        Args:
+            other (TimeSet):
+                The other TimeSet to union with this one.
+        
+        Returns:
+            The union of this TimeSet and the other TimeSet.
+        """
+        return TimeSet(self.time_intervals + other.time_intervals).compute_internal_union()
