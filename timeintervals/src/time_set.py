@@ -313,3 +313,15 @@ class TimeSet:
         latest_start: datetime = max(time_interval_1.start, time_interval_2.start)
         earliest_end: datetime = min(time_interval_1.end, time_interval_2.end)
         return TimeInterval(latest_start, earliest_end)
+    
+    def compute_intersection(self, other: Self) -> Self:
+        """Computes the intersection of this TimeSet with the other TimeSet.
+
+        Args:
+            other (TimeSet):
+                The other TimeSet to intersection with this one.
+
+        Returns:
+            The intersection of this TimeSet and the other TimeSet.
+        """
+        pass
