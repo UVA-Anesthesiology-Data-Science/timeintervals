@@ -731,7 +731,7 @@ def test_compute_intersection_no_overlap():
     assert time_set_1.compute_intersection(time_set_2).is_empty()
 
 
-def test_compute_intersection_with_overlap():
+def test_compute_intersection_with_overlap_1():
     """Tests the compute_intersection method where the TimeSets have overlapping timeintervals."""
     time_set_1: TimeSet = TimeSet(
         [
@@ -751,5 +751,28 @@ def test_compute_intersection_with_overlap():
             TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
         ]
     )
-    assert time_set_1.compute_intersection(time_set_2).is_empty()
+    assert time_set_1.compute_intersection(time_set_2) == true_intersection
+
+
+def test_compute_intersection_with_overlap_2():
+    """Tests the compute_intersection method where the TimeSets have overlapping timeintervals."""
+    time_set_1: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
+        ]
+    )
+    time_set_2: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+            TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 5 * ONE_MINUTE)
+        ]
+    )
+    true_intersection: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 2*ONE_MINUTE, NOW + ONE_MINUTE),
+            TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
+        ]
+    )
+    assert time_set_1.compute_intersection(time_set_2) == true_intersection
 
