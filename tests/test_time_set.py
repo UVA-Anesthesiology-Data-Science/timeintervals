@@ -718,12 +718,14 @@ def test_compute_intersection_no_overlap():
     """Tests the compute_intersection method when none of the timeintervals overlap."""
     time_set_1: TimeSet = TimeSet(
         [
-            TimeInterval()
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW)
         ]
     )
     time_set_2: TimeSet = TimeSet(
         [
-            TimeInterval()
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE)
         ]
     )
     assert time_set_1.compute_intersection(time_set_2).is_empty()
