@@ -1,10 +1,10 @@
-from .src.time_interval import (
+from ._custom_exceptions import (
     InvalidTimeIntervalError,
     TimeFormatMismatchError,
-    TimeInterval,
     UnconvertedDataError,
 )
-from .src.time_set import TimeSet
+from .time_interval import TimeInterval
+from .time_set import TimeSet
 
 
 __all__ = [
