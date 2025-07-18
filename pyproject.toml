@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "timeintervals"
+version = "1.0.0"
+dependencies = [
+    "pydantic"
+]
+authors = [
+    {name = "Ryan Folks", email = "vcz2aj@uvahealth.org"}
+]
+maintainers = [
+    {name = "Ryan Folks", email = "vcz2aj@uvahealth.org"}
+]
+description = "A library for working with intervals of time."
+readme = "README.md"
+license = "GPL-3.0"
+license-files = ["LICENSE"]
+classifiers = ["Development Status :: 4 - Beta"]
+
+[project.optional-dependencies]
+dev = [
+    "ruff"
+]
+[tool.setuptools.packages.find]
+where = ["src"]
