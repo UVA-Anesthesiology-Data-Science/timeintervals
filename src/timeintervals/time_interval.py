@@ -7,7 +7,6 @@ from ._custom_exceptions import (
 )
 from datetime import datetime, timedelta
 from pydantic import BaseModel, Field, model_validator
-from typing_extensions import Self
 
 
 class TimeInterval(BaseModel):
@@ -20,7 +19,7 @@ class TimeInterval(BaseModel):
     end: datetime = Field(frozen=True)
 
     @model_validator(mode="after")
-    def check_end_gt_start(self) -> Self:
+    def check_end_gt_start(self) -> "TimeInterval":
         """Checks to make sure end is greater than start."""
         if self.end < self.start:
             raise InvalidTimeIntervalError(
@@ -43,7 +42,7 @@ class TimeInterval(BaseModel):
         super().__init__(**kwargs)
 
     @classmethod
-    def from_strings(cls, start_str: str, end_str: str, time_format: str) -> Self:
+    def from_strings(cls, start_str: str, end_str: str, time_format: str) -> "TimeInterval":
         """Creates a time interval by parsing strings.
 
         Args:
@@ -88,7 +87,7 @@ class TimeInterval(BaseModel):
         """
         return self.end - self.start
 
-    def is_nested_in(self, other: Self) -> bool:
+    def is_nested_in(self, other: "TimeInterval") -> bool:
         """Determines if this TimeInterval is nested within the other TimeInterval.
 
         Args:
@@ -100,7 +99,7 @@ class TimeInterval(BaseModel):
         """
         return (self.start >= other.start) and (self.end <= other.end)
 
-    def is_disjoint_with(self, other: Self) -> bool:
+    def is_disjoint_with(self, other: "TimeInterval") -> bool:
         """Determines if this TimeInterval is disjoint with the other TimeInterval.
 
         Args:
@@ -112,7 +111,7 @@ class TimeInterval(BaseModel):
         """
         return (self.end <= other.start) or (other.end <= self.start)
 
-    def is_empty(self) -> str:
+    def is_empty(self) -> bool:
         """Determines if this TimeInterval has no time in it."""
         return self.start == self.end
 
