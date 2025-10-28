@@ -377,10 +377,8 @@ class TimeSet:
             if new_end is not None and end > new_end:
                 end: datetime = new_end
             
-            try:
+            if end >= start:
                 new_interval: TimeInterval = TimeInterval(start, end)
                 clamped_intervals.append(new_interval)
-            except:
-                pass
 
         return TimeSet(clamped_intervals)
