@@ -351,3 +351,7 @@ class TimeSet:
             The union of this TimeSet and the other TimeSet.
         """
         return TimeSet(self.time_intervals + other.time_intervals).compute_internal_union()
+
+    def clamp(self, new_start: Optional[datetime], new_end: Optional[datetime]) -> "TimeSet":
+        """ """
+        raise NotImplementedError()
