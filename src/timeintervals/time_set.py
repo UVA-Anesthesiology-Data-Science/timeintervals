@@ -352,14 +352,20 @@ class TimeSet:
         """
         return TimeSet(self.time_intervals + other.time_intervals).compute_internal_union()
 
-    def clamp(self, new_start: Optional[datetime], new_end: Optional[datetime]) -> "TimeSet":
+    def clamp(
+        self,
+        new_start: Optional[datetime]=None,
+        new_end: Optional[datetime]=None
+    ) -> "TimeSet":
         """Clamps the timeintervals in the timeset to a new start, a new end, or both.
         
+        Passing None for new_start or new_end means there is no bound on that side.
+
         Args:
             new_start (Optional[datetime]):
-                The new start to clamp to.
+                The new start to clamp to. If None, start times are unbounded. Defaults to None.
             new_end (Optional[datetime]):
-                The new end to clamp to.
+                The new end to clamp to. If None, end times are unbounded. Defaults to None.
 
         Returns:
              A new TimeSet with the times of all time intervals clamped to the new times
