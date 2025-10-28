@@ -39,7 +39,7 @@ class TimeSet:
         """
         self.time_intervals: List[TimeInterval] = time_intervals
 
-    def __add__(self, other: Union[Self, TimeInterval]) -> Self:
+    def __add__(self, other: Union["TimeSet", TimeInterval]) -> "TimeSet":
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
 
         Args:
@@ -55,17 +55,17 @@ class TimeSet:
                 f"\"other\" is a {type(other)}, not a TimeSet or a TimeInterval."
             )
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: "TimeSet") -> bool: # type: ignore
         """Determines if this TimeSet is equal to the other by comparing their time_intervals."""
         return self.time_intervals == other.time_intervals
 
     def __repr__(self) -> str:
         """An unambiguous string representation of this TimeSet."""
-        str_time_intervals: str = [ti.__repr__() for ti in self.time_intervals]
+        str_time_intervals: List[str] = [ti.__repr__() for ti in self.time_intervals]
         representation: str = f"TimeSet(time_intervals={str_time_intervals})"
         return representation
 
-    def __sub__(self, subtrahend: Union[Self, TimeInterval]) -> Self:
+    def __sub__(self, subtrahend: Union[Self, TimeInterval]) -> "TimeSet":
         """Implements set subtraction between this TimeInterval and another TimeInterval or Timeset.
 
         Args:
@@ -85,9 +85,9 @@ class TimeSet:
 
     @staticmethod
     def _subtract_timeset_from_timeset(
-        minuend: Self,
-        subtrahend: Self,
-    ) -> Self:
+        minuend: "TimeSet",
+        subtrahend: "TimeSet",
+    ) -> "TimeSet":
         """Subtracts a TimeSet from a TimeSet.
 
         This algorithm sorts the input time intervals and checks every loop if the resulting
@@ -104,7 +104,7 @@ class TimeSet:
         Returns:
             A TimeSet containing the difference between the minuend and the subtrahend.
         """
-        differences: List[TimeSet] = list()
+        differences: List[TimeInterval] = list()
         sorted_minuend_time_intervals: List[TimeInterval] = sorted(
             minuend.time_intervals, key=lambda ti: ti.start
         )
@@ -118,14 +118,10 @@ class TimeSet:
                     diff,
                     subtrahend_time_interval,
                 )
-                latest_end_in_diff: datetime = max(
-                    [ti.end for ti in diff.time_intervals],
-                    default=None,  # if the default is triggered, then diff is empty.
-                )
-                if (
-                    diff.is_empty()
-                    or subtrahend_time_interval.start > latest_end_in_diff
-                ):
+                if diff.is_empty():
+                    break
+                latest_end_in_diff: Optional[datetime] = max([ti.end for ti in diff.time_intervals])
+                if subtrahend_time_interval.start > latest_end_in_diff:
                     break
             if not diff.is_empty():
                 differences += diff.time_intervals
@@ -133,9 +129,9 @@ class TimeSet:
 
     @staticmethod
     def _subtract_timeinterval_from_timeset(
-        minuend: Self,
+        minuend: "TimeSet",
         subtrahend: TimeInterval,
-    ) -> Self:
+    ) -> "TimeSet":
         """Subtracts a TimeInterval from a TimeSet.
 
         Args:
@@ -159,7 +155,7 @@ class TimeSet:
     @staticmethod
     def _subtract_timeinterval_from_timeinterval(
         minuend: TimeInterval, subtrahend: TimeInterval
-    ) -> Self:
+    ) -> "TimeSet":
         """Subtracts two TimeIntervals.
 
         Args:
@@ -183,7 +179,7 @@ class TimeSet:
     @staticmethod
     def _subtract_nested_timeintervals(
         minuend: TimeInterval, subtrahend: TimeInterval
-    ) -> Self:
+    ) -> "TimeSet":
         """Subtracts timeintervals where the subtrahend is nested in the minuend.
 
         Args:
@@ -210,7 +206,7 @@ class TimeSet:
     @staticmethod
     def _subtract_non_nested_timeintervals(
         minuend: TimeInterval, subtrahend: TimeInterval
-    ) -> Self:
+    ) -> "TimeSet":
         """Subtracts overlapping TimeIntervals that are not nested.
 
         Args:
@@ -236,7 +232,7 @@ class TimeSet:
         """Determines if this time interval is empty."""
         return len(self.time_intervals) == 0
 
-    def compute_internal_union(self) -> Self:
+    def compute_internal_union(self) -> "TimeSet":
         """Computes the union of this TimeSet's time intervals.
 
         Returns:
@@ -264,7 +260,7 @@ class TimeSet:
 
         return TimeSet(unioned_timeintervals)
 
-    def compute_internal_intersection(self) -> Self:
+    def compute_internal_intersection(self) -> "TimeSet":
         """Computes the intersection of this TimeSet's time intervals.
 
         The intersection of a TimeSet can only result in a singlular TimeInterval, or
@@ -278,12 +274,15 @@ class TimeSet:
         """
         if self.is_empty():
             return TimeSet([])
-        intersection: TimeInterval = reduce(
+        intersection: Optional[TimeInterval] = reduce(
             TimeSet._timeinterval_intersection,
             self.time_intervals[1:],
             self.time_intervals[0],
         )
-        return TimeSet([intersection]) if intersection is not None else TimeSet([])
+        if intersection is not None:
+            return TimeSet([intersection])
+        else:
+            return TimeSet([])
 
     @staticmethod
     def _timeinterval_intersection(
@@ -314,7 +313,7 @@ class TimeSet:
         earliest_end: datetime = min(time_interval_1.end, time_interval_2.end)
         return TimeInterval(latest_start, earliest_end)
     
-    def compute_intersection(self, other: Self) -> Self:
+    def compute_intersection(self, other: "TimeSet") -> "TimeSet":
         """Computes the intersection of this TimeSet with the other TimeSet.
 
         Args:
@@ -339,7 +338,7 @@ class TimeSet:
 
         return TimeSet(intersection_intervals)
 
-    def compute_union(self, other: Self) -> Self:
+    def compute_union(self, other: "TimeSet") -> "TimeSet":
         """Computes the union of this TimeSet with the other TimeSet.
         
         This method is merely shorthand for combining the time intervals from two TimeSets
