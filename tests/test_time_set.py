@@ -58,7 +58,7 @@ def test_add_timeset_to_timeset():
 
 def test_add_non_timeset_non_timeinterval_to_timeset():
     """Tests the __add__ methods ability to throw an error when adding a wrong type to TimeSet."""
-    with pytest.raises(ValueError, match="\"other\" is a"):
+    with pytest.raises(ValueError, match='"other" is a'):
         new_string: str = "TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])"
         pre_add_time_set: TimeSet = TimeSet(
             [
@@ -695,20 +695,20 @@ def test_compute_intersection_equal_timesets():
         [
             TimeInterval(NOW, NOW + ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW),
-            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     time_set_2: TimeSet = TimeSet(
         [
             TimeInterval(NOW, NOW + ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW),
-            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     true_intersection: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
-            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     assert time_set_1.compute_intersection(time_set_2) == true_intersection
@@ -719,13 +719,13 @@ def test_compute_intersection_no_overlap():
     time_set_1: TimeSet = TimeSet(
         [
             TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
-            TimeInterval(NOW - ONE_MINUTE, NOW)
+            TimeInterval(NOW - ONE_MINUTE, NOW),
         ]
     )
     time_set_2: TimeSet = TimeSet(
         [
             TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
-            TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+            TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     assert time_set_1.compute_intersection(time_set_2).is_empty()
@@ -736,19 +736,19 @@ def test_compute_intersection_with_overlap_1():
     time_set_1: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW),
-            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 4 * ONE_MINUTE),
         ]
     )
     time_set_2: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
-            TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+            TimeInterval(NOW + ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     true_intersection: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW),
-            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE)
+            TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
         ]
     )
     assert time_set_1.compute_intersection(time_set_2) == true_intersection
@@ -757,21 +757,19 @@ def test_compute_intersection_with_overlap_1():
 def test_compute_intersection_with_overlap_2():
     """Tests the compute_intersection method where the TimeSets have overlapping timeintervals."""
     time_set_1: TimeSet = TimeSet(
-        [
-            TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
-        ]
+        [TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)]
     )
     time_set_2: TimeSet = TimeSet(
         [
             TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
-            TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 5 * ONE_MINUTE)
+            TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 5 * ONE_MINUTE),
         ]
     )
     true_intersection: TimeSet = TimeSet(
         [
-            TimeInterval(NOW - 2*ONE_MINUTE, NOW + ONE_MINUTE),
-            TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE)
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW + ONE_MINUTE),
+            TimeInterval(NOW + 3 * ONE_MINUTE, NOW + 4 * ONE_MINUTE),
         ]
     )
     assert time_set_1.compute_intersection(time_set_2) == true_intersection
@@ -782,7 +780,7 @@ def test_clamp_no_inputs():
     time_set: TimeSet = TimeSet(
         [
             TimeInterval(NOW, NOW + ONE_MINUTE),
-            TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+            TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE),
         ]
     )
     assert time_set.clamp(new_start=None, new_end=None) == time_set
@@ -795,14 +793,14 @@ def test_clamp_new_start():
             TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW),
             TimeInterval(NOW, NOW + ONE_MINUTE),
-            TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+            TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE),
         ]
     )
     true_clamped_time_set: TimeSet = TimeSet(
         [
             TimeInterval(NOW, NOW),
             TimeInterval(NOW, NOW + ONE_MINUTE),
-            TimeInterval(NOW, NOW + 2 * ONE_MINUTE)
+            TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
         ]
     )
     assert time_set.clamp(new_start=NOW, new_end=None) == true_clamped_time_set
@@ -822,7 +820,7 @@ def test_clamp_new_end():
         [
             TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW),
-            TimeInterval(NOW, NOW)
+            TimeInterval(NOW, NOW),
         ]
     )
     assert time_set.clamp(new_start=None, new_end=NOW) == true_clamped_time_set
@@ -838,10 +836,12 @@ def test_clamp_new_start_and_new_end():
             TimeInterval(NOW, NOW + ONE_MINUTE),
             TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
             TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
-            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
         ]
     )
-    clamped_time_set: TimeSet = time_set.clamp(new_start=NOW - ONE_MINUTE, new_end=NOW + ONE_MINUTE)
+    clamped_time_set: TimeSet = time_set.clamp(
+        new_start=NOW - ONE_MINUTE, new_end=NOW + ONE_MINUTE
+    )
     true_clamped_time_set: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW - ONE_MINUTE),
@@ -865,11 +865,14 @@ def test_clamp_no_timeintervals_within_clamp_range():
             TimeInterval(NOW - ONE_MINUTE, NOW),
         ]
     )
-    start_clamped_time_set: TimeSet = time_set.clamp(new_start=NOW + ONE_MINUTE, new_end=None)
-    end_clamped_time_set: TimeSet = time_set.clamp(new_start=None, new_end=NOW - 4 * ONE_MINUTE)
+    start_clamped_time_set: TimeSet = time_set.clamp(
+        new_start=NOW + ONE_MINUTE, new_end=None
+    )
+    end_clamped_time_set: TimeSet = time_set.clamp(
+        new_start=None, new_end=NOW - 4 * ONE_MINUTE
+    )
     start_and_end_clamped_timeset: TimeSet = time_set.clamp(
-        new_start=NOW + ONE_MINUTE,
-        new_end = NOW + 2 * ONE_MINUTE
+        new_start=NOW + ONE_MINUTE, new_end=NOW + 2 * ONE_MINUTE
     )
 
     assert start_clamped_time_set == TimeSet([])
@@ -886,5 +889,7 @@ def test_clamp_new_start_greater_than_new_end():
             TimeInterval(NOW - ONE_MINUTE, NOW),
         ]
     )
-    impossible_clamped_time_set: TimeSet = time_set.clamp(new_start=NOW, new_end=NOW - ONE_MINUTE)
+    impossible_clamped_time_set: TimeSet = time_set.clamp(
+        new_start=NOW, new_end=NOW - ONE_MINUTE
+    )
     assert impossible_clamped_time_set == TimeSet([])

@@ -51,10 +51,10 @@ class TimeSet:
             return TimeSet(self.time_intervals + [other])
         else:
             raise ValueError(
-                f"\"other\" is a {type(other)}, not a TimeSet or a TimeInterval."
+                f'"other" is a {type(other)}, not a TimeSet or a TimeInterval.'
             )
 
-    def __eq__(self, other: "TimeSet") -> bool: # type: ignore
+    def __eq__(self, other: "TimeSet") -> bool:  # type: ignore
         """Determines if this TimeSet is equal to the other by comparing their time_intervals."""
         return self.time_intervals == other.time_intervals
 
@@ -119,7 +119,9 @@ class TimeSet:
                 )
                 if diff.is_empty():
                     break
-                latest_end_in_diff: Optional[datetime] = max([ti.end for ti in diff.time_intervals])
+                latest_end_in_diff: Optional[datetime] = max(
+                    [ti.end for ti in diff.time_intervals]
+                )
                 if subtrahend_time_interval.start > latest_end_in_diff:
                     break
             if not diff.is_empty():
@@ -311,7 +313,7 @@ class TimeSet:
         latest_start: datetime = max(time_interval_1.start, time_interval_2.start)
         earliest_end: datetime = min(time_interval_1.end, time_interval_2.end)
         return TimeInterval(latest_start, earliest_end)
-    
+
     def compute_intersection(self, other: "TimeSet") -> "TimeSet":
         """Computes the intersection of this TimeSet with the other TimeSet.
 
@@ -324,13 +326,15 @@ class TimeSet:
         """
         this_timeset_union: TimeSet = self.compute_internal_union()
         other_timeset_union: TimeSet = other.compute_internal_union()
-        
+
         intersection_intervals: List[TimeInterval] = []
         for this_interval in this_timeset_union.time_intervals:
             for other_interval in other_timeset_union.time_intervals:
-                intersection: Optional[TimeInterval] = TimeSet._timeinterval_intersection(
-                    this_interval,
-                    other_interval,
+                intersection: Optional[TimeInterval] = (
+                    TimeSet._timeinterval_intersection(
+                        this_interval,
+                        other_interval,
+                    )
                 )
                 if intersection is not None:
                     intersection_intervals.append(intersection)
@@ -339,26 +343,26 @@ class TimeSet:
 
     def compute_union(self, other: "TimeSet") -> "TimeSet":
         """Computes the union of this TimeSet with the other TimeSet.
-        
+
         This method is merely shorthand for combining the time intervals from two TimeSets
         together and computing that TimeSet's union.
-        
+
         Args:
             other (TimeSet):
                 The other TimeSet to union with this one.
-        
+
         Returns:
             The union of this TimeSet and the other TimeSet.
         """
-        return TimeSet(self.time_intervals + other.time_intervals).compute_internal_union()
+        return TimeSet(
+            self.time_intervals + other.time_intervals
+        ).compute_internal_union()
 
     def clamp(
-        self,
-        new_start: Optional[datetime]=None,
-        new_end: Optional[datetime]=None
+        self, new_start: Optional[datetime] = None, new_end: Optional[datetime] = None
     ) -> "TimeSet":
         """Clamps the timeintervals in the timeset to a new start, a new end, or both.
-        
+
         Passing None for new_start or new_end means there is no bound on that side.
 
         Args:
@@ -382,7 +386,7 @@ class TimeSet:
                 start: datetime = new_start
             if new_end is not None and end > new_end:
                 end: datetime = new_end
-            
+
             if end >= start:
                 new_interval: TimeInterval = TimeInterval(start, end)
                 clamped_intervals.append(new_interval)

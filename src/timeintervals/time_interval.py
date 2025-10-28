@@ -21,7 +21,7 @@ class TimeInterval(BaseModel):
     @model_validator(mode="after")
     def check_end_gt_start(self) -> "TimeInterval":
         """Checks to make sure end is greater than start.
-        
+
         Does not check equality because this class allows for 'empty' time intervals whose
         start and ends are equal.
         """
@@ -46,7 +46,9 @@ class TimeInterval(BaseModel):
         super().__init__(**kwargs)
 
     @classmethod
-    def from_strings(cls, start_str: str, end_str: str, time_format: str) -> "TimeInterval":
+    def from_strings(
+        cls, start_str: str, end_str: str, time_format: str
+    ) -> "TimeInterval":
         """Creates a time interval by parsing strings.
 
         Args:
