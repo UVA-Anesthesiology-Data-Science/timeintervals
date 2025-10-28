@@ -779,24 +779,92 @@ def test_compute_intersection_with_overlap_2():
 
 def test_clamp_no_inputs():
     """Tests the clamp method where both inputs are None."""
-    pass
+    time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+        ]
+    )
+    assert time_set.clamp(new_start=None, new_end=None) == time_set
 
 
 def test_clamp_new_start():
     """Tests the clamp method where there is a new start and no new end."""
-    pass
+    time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+        ]
+    )
+    true_clamped_time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW, NOW + 2 * ONE_MINUTE)
+        ]
+    )
+    assert time_set.clamp(new_start=NOW, new_end=None) == true_clamped_time_set
 
 
 def test_clamp_new_end():
     """Tests the clamp method where there is a new end and no new start."""
-    pass
+    time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+        ]
+    )
+    true_clamped_time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW)
+        ]
+    )
+    assert time_set.clamp(new_start=None, new_end=NOW) == true_clamped_time_set
 
 
 def test_clamp_new_start_and_new_end():
     """Tests the clamp method where there is a new start and a new end."""
-    pass
+    time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 3 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW, NOW + 2 * ONE_MINUTE),
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW + 2 * ONE_MINUTE),
+            TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE)
+        ]
+    )
+    clamped_time_set: TimeSet = time_set.clamp(new_start=NOW - ONE_MINUTE, new_end=NOW + ONE_MINUTE)
+    true_clamped_time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW, NOW + ONE_MINUTE),
+            TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+        ]
+    )
+    assert clamped_time_set == true_clamped_time_set
 
 
 def test_clamp_no_timeintervals_within_clamp_range():
     """Tests the clamp method where there are no timeintervals that exist after clamping."""
-    pass
+    time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 3 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+        ]
+    )
+    start_clamped_time_set: TimeSet = time_set.clamp(new_start=NOW, new_end=None)
+    end_clamped_time_set: TimeSet = time_set.clamp(new_start=None, new_end=NOW - 4 * ONE_MINUTE)
+    start_and_end_clamped_timeset: TimeSet = time_set.clamp(new_start=NOW, new_end = NOW + ONE_MINUTE)
+
+    assert start_clamped_time_set == TimeSet([])
+    assert end_clamped_time_set == TimeSet([])
+    assert start_and_end_clamped_timeset == TimeSet([])
