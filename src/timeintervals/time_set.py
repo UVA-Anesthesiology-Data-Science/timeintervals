@@ -5,7 +5,6 @@ from datetime import datetime
 from functools import reduce
 from operator import add
 from typing import List, Optional, Union
-from typing_extensions import Self
 
 
 class TimeSet:
@@ -43,7 +42,7 @@ class TimeSet:
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
 
         Args:
-            other (Union[Self, TimeSet]):
+            other (Union[TimeSet, TimeInterval]):
                 The other object. Either a TimeInterval or a TimeSet.
         """
         if isinstance(other, TimeSet):
@@ -65,11 +64,11 @@ class TimeSet:
         representation: str = f"TimeSet(time_intervals={str_time_intervals})"
         return representation
 
-    def __sub__(self, subtrahend: Union[Self, TimeInterval]) -> "TimeSet":
+    def __sub__(self, subtrahend: Union["TimeSet", TimeInterval]) -> "TimeSet":
         """Implements set subtraction between this TimeInterval and another TimeInterval or Timeset.
 
         Args:
-            subtrahend (Union[Self, TimeSet]):
+            subtrahend (Union[TimeSet, TimeInterval]):
                 The other object to subtract from this one. Either a TimeInterval or a TimeSet.
                 (subtrahend is the right part of any subtraction, the left part is the minuend)
 
