@@ -868,3 +868,16 @@ def test_clamp_no_timeintervals_within_clamp_range():
     assert start_clamped_time_set == TimeSet([])
     assert end_clamped_time_set == TimeSet([])
     assert start_and_end_clamped_timeset == TimeSet([])
+
+
+def test_clamp_new_start_greater_than_new_end():
+    """Tests the clamp method where the new start is greater than the new end."""
+    time_set: TimeSet = TimeSet(
+        [
+            TimeInterval(NOW - 3 * ONE_MINUTE, NOW - ONE_MINUTE),
+            TimeInterval(NOW - 2 * ONE_MINUTE, NOW),
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+        ]
+    )
+    impossible_clamped_time_set: TimeSet = time_set.clamp(new_start=NOW, new_end=NOW - ONE_MINUTE)
+    assert impossible_clamped_time_set == TimeSet([])
