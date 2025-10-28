@@ -776,3 +776,27 @@ def test_compute_intersection_with_overlap_2():
     )
     assert time_set_1.compute_intersection(time_set_2) == true_intersection
 
+
+def test_clamp_no_inputs():
+    """Tests the clamp method where both inputs are None."""
+    pass
+
+
+def test_clamp_new_start():
+    """Tests the clamp method where there is a new start and no new end."""
+    pass
+
+
+def test_clamp_new_end():
+    """Tests the clamp method where there is a new end and no new start."""
+    pass
+
+
+def test_clamp_new_start_and_new_end():
+    """Tests the clamp method where there is a new start and a new end."""
+    pass
+
+
+def test_clamp_no_timeintervals_within_clamp_range():
+    """Tests the clamp method where there are no timeintervals that exist after clamping."""
+    pass
