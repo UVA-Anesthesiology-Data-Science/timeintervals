@@ -800,6 +800,7 @@ def test_clamp_new_start():
     )
     true_clamped_time_set: TimeSet = TimeSet(
         [
+            TimeInterval(NOW, NOW),
             TimeInterval(NOW, NOW + ONE_MINUTE),
             TimeInterval(NOW, NOW + 2 * ONE_MINUTE)
         ]
@@ -820,7 +821,8 @@ def test_clamp_new_end():
     true_clamped_time_set: TimeSet = TimeSet(
         [
             TimeInterval(NOW - 2 * ONE_MINUTE, NOW - ONE_MINUTE),
-            TimeInterval(NOW - ONE_MINUTE, NOW)
+            TimeInterval(NOW - ONE_MINUTE, NOW),
+            TimeInterval(NOW, NOW)
         ]
     )
     assert time_set.clamp(new_start=None, new_end=NOW) == true_clamped_time_set
@@ -842,11 +844,13 @@ def test_clamp_new_start_and_new_end():
     clamped_time_set: TimeSet = time_set.clamp(new_start=NOW - ONE_MINUTE, new_end=NOW + ONE_MINUTE)
     true_clamped_time_set: TimeSet = TimeSet(
         [
+            TimeInterval(NOW - ONE_MINUTE, NOW - ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW),
             TimeInterval(NOW - ONE_MINUTE, NOW),
             TimeInterval(NOW, NOW + ONE_MINUTE),
             TimeInterval(NOW, NOW + ONE_MINUTE),
             TimeInterval(NOW - ONE_MINUTE, NOW + ONE_MINUTE),
+            TimeInterval(NOW + ONE_MINUTE, NOW + ONE_MINUTE),
         ]
     )
     assert clamped_time_set == true_clamped_time_set
@@ -861,9 +865,12 @@ def test_clamp_no_timeintervals_within_clamp_range():
             TimeInterval(NOW - ONE_MINUTE, NOW),
         ]
     )
-    start_clamped_time_set: TimeSet = time_set.clamp(new_start=NOW, new_end=None)
+    start_clamped_time_set: TimeSet = time_set.clamp(new_start=NOW + ONE_MINUTE, new_end=None)
     end_clamped_time_set: TimeSet = time_set.clamp(new_start=None, new_end=NOW - 4 * ONE_MINUTE)
-    start_and_end_clamped_timeset: TimeSet = time_set.clamp(new_start=NOW, new_end = NOW + ONE_MINUTE)
+    start_and_end_clamped_timeset: TimeSet = time_set.clamp(
+        new_start=NOW + ONE_MINUTE,
+        new_end = NOW + 2 * ONE_MINUTE
+    )
 
     assert start_clamped_time_set == TimeSet([])
     assert end_clamped_time_set == TimeSet([])
