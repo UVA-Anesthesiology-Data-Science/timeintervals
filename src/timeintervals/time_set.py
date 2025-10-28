@@ -353,5 +353,16 @@ class TimeSet:
         return TimeSet(self.time_intervals + other.time_intervals).compute_internal_union()
 
     def clamp(self, new_start: Optional[datetime], new_end: Optional[datetime]) -> "TimeSet":
-        """ """
+        """Clamps the timeintervals in the timeset to a new start, a new end, or both.
+        
+        Args:
+            new_start (Optional[datetime]):
+                The new start to clamp to.
+            new_end (Optional[datetime]):
+                The new end to clamp to.
+
+        Returns:
+             A new TimeSet with the times of all time intervals clamped to the new times
+             or removed if the interval is not within the new start and end. 
+        """
         raise NotImplementedError()
