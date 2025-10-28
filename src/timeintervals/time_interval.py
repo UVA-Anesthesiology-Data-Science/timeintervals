@@ -20,7 +20,11 @@ class TimeInterval(BaseModel):
 
     @model_validator(mode="after")
     def check_end_gt_start(self) -> "TimeInterval":
-        """Checks to make sure end is greater than start."""
+        """Checks to make sure end is greater than start.
+        
+        Does not check equality because this class allows for 'empty' time intervals whose
+        start and ends are equal.
+        """
         if self.end < self.start:
             raise InvalidTimeIntervalError(
                 f"Cannot construct TimeInterval: end ({self.end}) is less than start ({self.start})."
