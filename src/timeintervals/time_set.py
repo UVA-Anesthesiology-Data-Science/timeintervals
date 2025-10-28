@@ -363,6 +363,24 @@ class TimeSet:
 
         Returns:
              A new TimeSet with the times of all time intervals clamped to the new times
-             or removed if the interval is not within the new start and end. 
+             or removed if the interval is not within the new start and end. If no time
+             intervals fit in the clamped range, an empty TimeSet is returned. Allows for empty
+             time intervals to exist in the clamped output.
         """
-        raise NotImplementedError()
+        clamped_intervals: List[TimeInterval] = list()
+        for time_interval in self.time_intervals:
+            start: datetime = time_interval.start
+            end: datetime = time_interval.end
+
+            if new_start is not None and start < new_start:
+                start: datetime = new_start
+            if new_end is not None and end > new_end:
+                end: datetime = new_end
+            
+            try:
+                new_interval: TimeInterval = TimeInterval(start, end)
+                clamped_intervals.append(new_interval)
+            except:
+                pass
+
+        return TimeSet(clamped_intervals)
