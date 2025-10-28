@@ -29,7 +29,7 @@ def test_end_before_start():
     start: datetime = NOW
     end: datetime = NOW - ONE_MINUTE
 
-    with pytest.raises(ValidationError, match="is greater than"):
+    with pytest.raises(ValidationError, match="is less than"):
         TimeInterval(start, end)
 
 
