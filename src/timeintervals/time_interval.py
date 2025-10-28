@@ -23,7 +23,7 @@ class TimeInterval(BaseModel):
         """Checks to make sure end is greater than start."""
         if self.end < self.start:
             raise InvalidTimeIntervalError(
-                f"Cannot construct TimeInterval: {self.end} is less than {self.start}."
+                f"Cannot construct TimeInterval: end ({self.end}) is less than start ({self.start})."
             )
         return self
 
