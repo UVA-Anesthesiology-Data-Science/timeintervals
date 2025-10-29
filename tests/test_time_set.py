@@ -308,7 +308,7 @@ def test_sub_timeset_from_timeset_disjoint():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [
             TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
             TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
@@ -329,7 +329,7 @@ def test_sub_timeset_from_timeset_equal():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
 
@@ -345,7 +345,7 @@ def test_sub_timeset_from_timeset_some_overlap():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW),
             TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
@@ -364,7 +364,7 @@ def test_sub_empty_timeset_from_timeset():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet([])
+    subtrahend: TimeSet = TimeSet([])
 
     diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
 
@@ -378,7 +378,7 @@ def test_sub_empty_timeset_from_timeset():
 def test_sub_timeset_from_empty_timeset():
     """Tests the _subtract_timeset_from_timeset method where the minuend is an empty TimeSet."""
     minuend: TimeSet = TimeSet([])
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
 
@@ -403,6 +403,13 @@ def test_sub_operator_overloading():
     assert minuend - time_interval_subtrahend == true_diff
     with pytest.raises(ValueError):
         minuend - illegal_subtrahend
+
+
+def test_union_empty_timeset():
+    """Tests the compute_internal_union method with a TimeSet consisting of no TimeIntervals."""
+    time_intervals: List[TimeInterval] = list()
+    unioned_timeset: TimeSet = TimeSet([])
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
 
 
 def test_union_all_disjoint():

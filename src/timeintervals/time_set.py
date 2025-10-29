@@ -240,6 +240,8 @@ class TimeSet:
             A TimeSet containing the union of this TimeSet's time intervals.
             The resulting TimeSet will have no overlapping time intervals.
         """
+        if not self.time_intervals:
+            return TimeSet([])
         unioned_timeintervals: List[TimeInterval] = list()
         intervals: List[TimeInterval] = sorted(
             self.time_intervals, key=lambda ti: ti.start
