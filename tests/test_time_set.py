@@ -405,6 +405,13 @@ def test_sub_operator_overloading():
         minuend - illegal_subtrahend
 
 
+def test_union_empty_timeset():
+    """Tests the compute_internal_union method with a TimeSet consisting of no TimeIntervals."""
+    time_intervals: List[TimeInterval] = list()
+    unioned_timeset: TimeSet = TimeSet([])
+    assert TimeSet(time_intervals).compute_internal_union() == unioned_timeset
+
+
 def test_union_all_disjoint():
     """Tests the compute_internal_union method with a TimeSet consisting of disjoint TimeIntervals."""
     time_intervals: List[TimeInterval] = [
