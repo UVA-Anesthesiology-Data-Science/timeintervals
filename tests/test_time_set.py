@@ -308,7 +308,7 @@ def test_sub_timeset_from_timeset_disjoint():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [
             TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
             TimeInterval(NOW + 2 * ONE_MINUTE, NOW + 3 * ONE_MINUTE),
@@ -329,7 +329,7 @@ def test_sub_timeset_from_timeset_equal():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
 
@@ -345,7 +345,7 @@ def test_sub_timeset_from_timeset_some_overlap():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [
             TimeInterval(NOW - ONE_MINUTE, NOW),
             TimeInterval(NOW + ONE_MINUTE, NOW + 2 * ONE_MINUTE),
@@ -364,7 +364,7 @@ def test_sub_empty_timeset_from_timeset():
     minuend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
-    subtrahend: TimeInterval = TimeSet([])
+    subtrahend: TimeSet = TimeSet([])
 
     diff: TimeSet = TimeSet._subtract_timeset_from_timeset(minuend, subtrahend)
 
@@ -378,7 +378,7 @@ def test_sub_empty_timeset_from_timeset():
 def test_sub_timeset_from_empty_timeset():
     """Tests the _subtract_timeset_from_timeset method where the minuend is an empty TimeSet."""
     minuend: TimeSet = TimeSet([])
-    subtrahend: TimeInterval = TimeSet(
+    subtrahend: TimeSet = TimeSet(
         [TimeInterval(NOW - 2 * ONE_MINUTE, NOW), TimeInterval(NOW - ONE_MINUTE, NOW)]
     )
 
