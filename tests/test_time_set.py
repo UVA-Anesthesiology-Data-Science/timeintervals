@@ -58,7 +58,7 @@ def test_add_timeset_to_timeset():
 
 def test_add_non_timeset_non_timeinterval_to_timeset():
     """Tests the __add__ methods ability to throw an error when adding a wrong type to TimeSet."""
-    with pytest.raises(ValueError, match='"other" is a'):
+    with pytest.raises(TypeError, match='"other" is a'):
         new_string: str = "TimeSet([TimeInterval(NOW, NOW + ONE_MINUTE)])"
         pre_add_time_set: TimeSet = TimeSet(
             [
