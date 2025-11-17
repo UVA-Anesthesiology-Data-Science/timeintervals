@@ -65,7 +65,7 @@ class TimeSet(BaseModel):
         elif isinstance(other, TimeInterval):
             return TimeSet(self.time_intervals + [other])
         else:
-            raise ValueError(
+            raise TypeError(
                 f'"other" is a {type(other)}, not a TimeSet or a TimeInterval.'
             )
 
