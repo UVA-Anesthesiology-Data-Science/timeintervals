@@ -37,7 +37,7 @@ class TimeSet(BaseModel):
         time_intervals (List[TimeInterval]):
             The time intervals that form this time set.
     """
-    
+
     time_intervals: List[TimeInterval] = Field(frozen=True)
 
     def __init__(self, *args, **kwargs):
