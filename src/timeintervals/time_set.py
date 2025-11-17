@@ -29,6 +29,13 @@ class TimeSet(BaseModel):
     return a TimeSet, and the user can carefully implement the unwrapping of
     the TimeSet in only one place.
 
+    Args:
+        time_intervals (List[TimeInterval]):
+            The time intervals that form this time set.
+
+    Attributes:
+        time_intervals (List[TimeInterval]):
+            The time intervals that form this time set.
     """
     
     time_intervals: List[TimeInterval] = Field(frozen=True)
