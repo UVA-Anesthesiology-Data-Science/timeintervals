@@ -4,10 +4,11 @@ from .time_interval import TimeInterval
 from datetime import datetime
 from functools import reduce
 from operator import add
+from pydantic import BaseModel, Field
 from typing import List, Optional, Union
 
 
-class TimeSet:
+class TimeSet(BaseModel):
     """A set of TimeIntervals that defines set-like operations.
 
     This class expands on the functionality of TimeInterval.
@@ -26,17 +27,24 @@ class TimeSet:
     TimeInterval that implements set subtraction could return three types. By
     wrapping TimeInterval in TimeSet, we can guarantee that it will always
     return a TimeSet, and the user can carefully implement the unwrapping of
-    the TimeSet in only on eplace.
+    the TimeSet in only one place.
+
     """
+    
+    time_intervals: List[TimeInterval] = Field(frozen=True)
 
-    def __init__(self, time_intervals: List[TimeInterval]):
-        """Inits the TimeSet.
+    def __init__(self, *args, **kwargs):
+        """An override of pydantic's __init__ function to allow for positional arguments.
 
-        Args:
-            time_intervals (List[TimeInterval]):
-                A list of time intervals to create the TimeSet from.
+        Without this override, the constructor TimeSet(time_intervals=time_intervals) would work,
+        but the constructor TimeSet(time_intervals) would fail. Users of this package expect
+        to be able to use both.
         """
-        self.time_intervals: List[TimeInterval] = time_intervals
+        if args:
+            if len(args) != 1:
+                raise TypeError(f"Expected 1 positional argument, got {len(args)}")
+            kwargs["time_intervals"] = args[0]
+        super().__init__(**kwargs)
 
     def __add__(self, other: Union["TimeSet", TimeInterval]) -> "TimeSet":
         """Implements set addition between this TimeInterval and another TimeInterval or Timeset.
