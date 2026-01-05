@@ -1,4 +1,4 @@
-![timeintervals](docs/source/_static/logo.svg "Logo")
+![timeintervals](docs/source/_static/logo.png "Logo")
 
 timeintervals is a small python library useful for working with intervals and sets of time.  
 
@@ -12,7 +12,7 @@ Therefore, anesthesiologists earn overtime pay.
 Attending anesthesiologists at teaching hospitals typically aren't doing just one case, they're supervising multiple residents or nursing anesthetists by lending aid during busy portions of the surgery and teaching residents through practical training.
 Thus, their cases can often have times that look like this:  
 
-![timeintervals](docs/source/_static/example_1.svg "Example 1")
+![timeintervals](docs/source/_static/example_1.png "Example 1")
 
 If we were to merely count the minutes that the anesthesiologist worked, we would be double counting the minutes where two cases occured at the same time.
 We need to deduplicate and use only the time they were in *any* case.  
